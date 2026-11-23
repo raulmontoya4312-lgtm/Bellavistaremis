@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>BellaVista Remis — Tu remis, cuando lo necesitás</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<meta name="theme-color" content="#22252A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+
+<div id="toast-wrap"></div>
+
+<div id="app">
+
+  <!-- ============================================================
+       TOP BAR
+       ============================================================ -->
+  <div class="topbar">
+    <div class="brand" onclick="Router.go('home')">
+      <img class="brand-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <div class="brand-text">BellaVista Remis<small>BELLA VISTA · TUCUMÁN</small></div>
+    </div>
+    <div class="topbar-right"><div class="topbar-avatar" id="topbarAvatar" onclick="Router.openProfile()" title="Mi perfil"></div><div class="role-pill" id="topbarRolePill">Invitado</div></div>
+  </div>
+
+  <!-- ============================================================
+       HOME VIEW
+       ============================================================ -->
+  <div class="view active" id="view-home">
+    <div class="hero">
+      <img class="hero-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <h1>Tu remis,<br><span>cuando lo necesitás.</span></h1>
+      <p class="tagline">Servicio de remis interno y rural de Bella Vista, Tucumán.</p>
+      <div class="cta-main">
+        <button class="btn btn-primary" onclick="Home.requestRemis()">🚕 PEDIR UN REMIS</button>
+      </div>
+      <div class="secondary-actions">
+        <button class="btn" onclick="Router.go('login')">Iniciar sesión</button>
+        <button class="btn" onclick="Router.go('register')">Registrarme</button>
+      </div>
+      <div class="auth-switch" style="margin-top:14px;">¿Sos conductor? <a onclick="Router.go('driverLogin')">Ingresá acá</a></div>
+      <div class="zone-note">📍 Traslados dentro de Bella Vista y zonas rurales habilitadas.</div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-chip"><div class="n" id="statTripsToday">0</div><div class="l">VIAJES HOY</div></div>
+      <div class="stat-chip"><div class="n" id="statDriversOn">0</div><div class="l">CONDUCTORES ACTIVOS</div></div>
+      <div class="stat-chip"><div class="n">24/7</div><div class="l">DISPONIBILIDAD</div></div>
+    </div>
+
+    <div class="how-section">
+      <h2>¿Cómo pedís tu remis?</h2>
+      <div class="step"><div class="step-num">1</div><p>Creás tu cuenta en menos de un minuto.</p></div>
+      <div class="step"><div class="step-num">2</div><p>Indicás dónde estás y hacia dónde vas.</p></div>
+      <div class="step"><div class="step-num">3</div><p>Un conductor disponible recibe tu solicitud.</p></div>
+      <div class="step"><div class="step-num">4</div><p>El conductor acepta el viaje y se dirige hacia vos.</p></div>
+      <div class="step"><div class="step-num">5</div><p>Ves el estado de tu viaje en tiempo real, paso a paso.</p></div>
+      <button class="btn btn-primary" style="margin-top:18px;" onclick="Router.go('register')">Crear mi cuenta y pedir un remis</button>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- ============================================================
+       REGISTER (PASSENGER)
+       ============================================================ -->
+  <div class="view" id="view-register">
+    <div class="brand-header">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <div class="brand-title">BellaVista Remis</div>
+      <div class="brand-sub">BELLA VISTA · TUCUMÁN</div>
+    </div>
+    <div class="card-header" style="text-align:center; padding-top:4px;">
+      <h2>Creá tu cuenta</h2>
+      <p class="sub">Para pedir remis y ver tu historial de viajes.</p>
+    </div>
+    <div class="step-progress" id="regStepProgress"></div>
+    <div class="screen-pad" id="regWizard">
+
+      <div class="step-page active" data-step="1">
+        <div class="card-header"><h3>Paso 1 · Tus datos</h3><p class="sub" id="regStep1Sub">¿Cómo te llamás?</p></div>
+        <div class="type-select" id="regTypeSel">
+          <button type="button" class="on" data-t="pasajero" onclick="Auth.setRegType('pasajero')">👤 Usuario<small>Quiero pedir remis</small></button>
+          <button type="button" data-t="comercio" onclick="Auth.setRegType('comercio')">🏪 Supermercado o comercio<small>Quiero una pantalla para mis clientes</small></button>
+        </div>
+        <div class="avatar-upload">
+          <label class="avatar-upload-circle" id="regAvatarWrap" for="regAvatarInput">
+            <span id="regAvatarPlaceholder">📷</span>
+            <span class="avatar-upload-badge">＋</span>
+          </label>
+          <input type="file" id="regAvatarInput" accept="image/*" onchange="UI.previewAvatar(this,'regAvatarWrap')">
+          <div class="avatar-upload-label">Agregá tu foto de perfil (opcional)</div>
+        </div>
+        <div class="field" id="f-reg-nombre">
+          <label id="lblRegNombre">Nombre</label>
+          <input type="text" id="regNombre" placeholder="Ej: Juan">
+          <div class="err-msg">Ingresá tu nombre.</div>
+        </div>
+        <div class="field" id="f-reg-dir" style="display:none;">
+          <label>Dirección del local</label>
+          <input type="text" id="regDireccion" placeholder="Ej: Av. San Martín 450">
+          <div class="err-msg">Ingresá la dirección del local.</div>
+        </div>
+        <div class="field" id="f-reg-apellido">
+          <label>Apellido</label>
+          <input type="text" id="regApellido" placeholder="Ej: Pérez">
+          <div class="err-msg">Ingresá tu apellido.</div>
+        </div>
+      </div>
+
+      <div class="step-page" data-step="2">
+        <div class="card-header"><h3>Paso 2 · Contacto</h3><p class="sub">Para avisarte sobre tus viajes.</p></div>
+        <div class="field" id="f-reg-tel">
+          <label>Teléfono</label>
+          <input type="tel" id="regTelefono" placeholder="Ej: 381 555-1234">
+          <div class="err-msg">Ingresá un teléfono válido.</div>
+        </div>
+        <div class="field" id="f-reg-email">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="tuemail@ejemplo.com">
+          <div class="err-msg">Ingresá un email válido.</div>
+        </div>
+      </div>
+
+      <div class="step-page" data-step="3">
+        <div class="card-header"><h3>Paso 3 · Contraseña</h3><p class="sub">Elegí una contraseña para entrar la próxima vez.</p></div>
+        <div class="field" id="f-reg-pass">
+          <label>Contraseña</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
+          <div class="err-msg">La contraseña debe tener al menos 6 caracteres.</div>
+        </div>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn btn-outline" id="regPrevBtn" onclick="Wizard.prev('register')">← Atrás</button>
+        <button class="btn btn-primary" id="regNextBtn" onclick="Wizard.next('register')">Siguiente →</button>
+      </div>
+      <div class="auth-switch">¿Ya tenés cuenta? <a onclick="Router.go('login')">Iniciar sesión</a></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LOGIN (PASSENGER)
+       ============================================================ -->
+  <div class="view" id="view-login">
+    <div class="card-header" style="text-align:center;">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <h2>Iniciar sesión</h2>
+      <p class="sub">Entrá con tu email y contraseña.</p>
+    </div>
+    <div class="screen-pad">
+      <div class="field" id="f-log-email">
+        <label>Email</label>
+        <input type="email" id="logEmail" placeholder="tuemail@ejemplo.com">
+        <div class="err-msg">Ingresá tu email.</div>
+      </div>
+      <div class="field" id="f-log-pass">
+        <label>Contraseña</label>
+        <input type="password" id="logPassword" placeholder="Tu contraseña">
+        <div class="err-msg">Email o contraseña incorrectos.</div>
+      </div>
+      <div class="auth-switch" style="text-align:right; margin:-8px 0 14px;"><a onclick="Auth.goForgotPassword('pasajero')">¿Olvidaste tu contraseña?</a></div>
+      <button class="btn btn-primary" onclick="Auth.loginPassenger()">Ingresar</button>
+      <div class="auth-switch">¿No tenés cuenta? <a onclick="Router.go('register')">Registrarme</a></div>
+      <div class="auth-switch demo-only" style="margin-top:4px;">Demo: <b>demo@bellavista.com</b> / <b>demo123</b></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FORGOT PASSWORD (pasajero y conductor)
+       ============================================================ -->
+  <div class="view" id="view-forgotPassword">
+    <div class="back-link" onclick="Router.back()">← Volver</div>
+    <div class="card-header" style="text-align:center;">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <h2>Recuperar contraseña</h2>
+      <p class="sub" id="fpSub">Ingresá tu email y te enviamos instrucciones.</p>
+    </div>
+    <div class="screen-pad">
+      <div class="field" id="f-fp-email">
+        <label>Email</label>
+        <input type="email" id="fpEmail" placeholder="tuemail@ejemplo.com">
+        <div class="err-msg">Ingresá un email válido.</div>
+      </div>
+      <button class="btn btn-primary" onclick="Auth.sendPasswordReset()">Enviar instrucciones</button>
+      <div class="auth-switch" id="fpBackLink">Volvé a <a onclick="Router.go('login')">iniciar sesión</a></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PASSENGER HOME (after login)
+       ============================================================ -->
+  <div class="view" id="view-passengerHome">
+    <div class="hero" style="padding-bottom:24px;">
+      <h1 style="font-size:28px;">Hola, <span id="passengerFirstName">—</span></h1>
+      <p class="tagline">¿A dónde vamos hoy?</p>
+      <button class="btn btn-primary" onclick="Router.go('request')">🚕 PEDIR UN REMIS</button>
+    </div>
+    <div id="activeTripBanner"></div>
+    <div id="homeWallet"></div>
+    <div class="section-title">Accesos rápidos</div>
+    <div class="screen-pad" style="padding-top:0;">
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="Router.go('scheduled')">🕒 Programar viaje</button>
+        <button class="btn btn-outline" onclick="Router.go('history')">📋 Mis viajes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       REQUEST A REMIS
+       ============================================================ -->
+  <div class="view" id="view-request">
+    <div class="back-link" onclick="Router.back()">← Volver</div>
+    <div class="card-header">
+      <h2>Pedir un remis</h2>
+      <p class="sub">Solo decinos de dónde salís y a dónde vas.</p>
+    </div>
+    <div class="step-progress" id="reqStepProgress"></div>
+    <div class="screen-pad" id="reqWizard">
+
+      <div class="step-page active" data-step="1">
+        <div class="field" id="f-req-origen">
+          <label for="reqOrigen">¿Dónde te buscamos?</label>
+          <input type="text" id="reqOrigen" placeholder="Dirección de recogida" autocomplete="off" onchange="Maps.originChanged()">
+          <button class="field-loc-btn" id="reqLocBtn" type="button" onclick="Maps.useMyLocation(false)">📍 Usar mi ubicación actual</button>
+          <div class="err-msg">Ingresá la dirección de recogida.</div>
+        </div>
+        <div class="field" id="f-req-destino">
+          <label for="reqDestino">¿A dónde vas?</label>
+          <div class="dest-row">
+            <input type="text" id="reqDestino" placeholder="Destino" autocomplete="off" oninput="Maps.invalidate()" onkeydown="if(event.key==='Enter'){event.preventDefault();Maps.search();}">
+            <button class="btn btn-primary" id="reqSearchBtn" type="button" onclick="Maps.search()">Buscar</button>
+          </div>
+          <div class="quick-chips" id="reqQuick"></div>
+          <div id="reqResults"></div>
+          <div class="err-msg" id="reqDestErr">Ingresá el destino.</div>
+        </div>
+        <div class="map-hint" id="reqMapHint" style="display:none;">Mapa desactivado: falta cargar la clave de Google Maps en <b>js/config.js</b>. Mientras tanto la tarifa es estimada.</div>
+        <div id="reqMapWrap" style="display:none;">
+          <div class="req-map" id="reqMap"></div>
+          <div id="reqRouteInfo"></div>
+        </div>
+        <details class="more-details">
+          <summary>Más detalles (opcional)</summary>
+          <div class="field" style="margin-top:12px;">
+            <label>Cantidad de pasajeros</label>
+            <div class="stepper">
+              <button type="button" onclick="Trips.stepPassengers(-1)">−</button>
+              <span id="reqPaxCount">1</span>
+              <button type="button" onclick="Trips.stepPassengers(1)">+</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="reqObs">Observaciones</label>
+            <textarea id="reqObs" placeholder="Ej: Me encuentro frente al supermercado."></textarea>
+          </div>
+        </details>
+      </div>
+
+      <div class="step-page" data-step="2">
+        <div class="card-header"><h3>Confirmá tu pedido</h3><p class="sub">Revisá el recorrido y el precio.</p></div>
+        <div class="step-summary" id="reqSummary"></div>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn btn-outline" id="reqPrevBtn" onclick="Wizard.prev('request')">← Atrás</button>
+        <button class="btn btn-primary" id="reqNextBtn" onclick="Wizard.next('request')">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TRIP STATUS
+       ============================================================ -->
+  <div class="view" id="view-status">
+    <div class="back-link" onclick="Router.go('passengerHome')">← Inicio</div>
+    <div id="statusContent"></div>
+  </div>
+
+  <!-- ============================================================
+       SCHEDULED TRIP
+       ============================================================ -->
+  <div class="view" id="view-scheduled">
+    <div class="back-link" onclick="Router.back()">← Volver</div>
+    <div class="card-header">
+      <h2>Programar un viaje</h2>
+      <p class="sub">Elegí fecha, hora y los datos del traslado.</p>
+    </div>
+    <div class="screen-pad">
+      <div class="field" id="f-sch-fecha">
+        <label>Fecha</label>
+        <input type="date" id="schFecha">
+        <div class="err-msg">Elegí una fecha.</div>
+      </div>
+      <div class="field" id="f-sch-hora">
+        <label>Hora</label>
+        <input type="time" id="schHora">
+        <div class="err-msg">Elegí una hora.</div>
+      </div>
+      <div class="field" id="f-sch-origen">
+        <label>Origen</label>
+        <input type="text" id="schOrigen" placeholder="Dirección de recogida">
+        <div class="err-msg">Ingresá el origen.</div>
+      </div>
+      <div class="field" id="f-sch-destino">
+        <label>Destino</label>
+        <input type="text" id="schDestino" placeholder="Destino">
+        <div class="err-msg">Ingresá el destino.</div>
+      </div>
+      <button class="btn btn-primary" onclick="Trips.submitScheduled()">PROGRAMAR VIAJE</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HISTORY
+       ============================================================ -->
+  <div class="view" id="view-history">
+    <div class="back-link" onclick="Router.go('passengerHome')">← Inicio</div>
+    <div class="card-header">
+      <h2>Mis viajes</h2>
+      <p class="sub">Historial de traslados realizados.</p>
+    </div>
+    <div class="screen-pad" id="historyList"></div>
+  </div>
+
+  <!-- ============================================================
+       DRIVER LOGIN
+       ============================================================ -->
+  <div class="view" id="view-wallet">
+    <div class="back-link" onclick="Router.go('passengerHome')">← Inicio</div>
+    <div class="profile-head">
+      <label class="profile-photo" id="profilePhoto" for="profilePhotoInput"></label>
+      <input type="file" id="profilePhotoInput" accept="image/*" onchange="Wallet.changePhoto(this)">
+      <div><h2 id="profileName"></h2><p class="sub" id="profileEmail"></p><label class="link" for="profilePhotoInput">Cambiar foto de perfil</label></div>
+    </div>
+    <div id="walletBody"></div>
+  </div>
+
+  <!-- ============================================================
+       DRIVER LOGIN
+       ============================================================ -->
+  <div class="view" id="view-shop">
+    <div class="shop-head">
+      <img class="shop-logo" src="logo.png" alt="Logo BellaVista Remis">
+      <h1>Pedí tu remis <span>acá</span></h1>
+      <p><b id="shopName"></b> · <span id="shopAddr"></span></p>
+      <div class="shop-tools">
+        <button class="btn" onclick="Shop.fullscreen()">⛶ Pantalla completa</button>
+        <button class="btn" onclick="Auth.logout()">Cerrar sesión</button>
+      </div>
+    </div>
+    <div class="shop-wrap">
+      <div id="shopForm">
+        <div class="field" id="f-shop-nombre"><label for="shopCliente">Tu nombre</label><input type="text" id="shopCliente" placeholder="Ej: Marta" autocomplete="off"><div class="err-msg">Escribí tu nombre.</div></div>
+        <div class="field" id="f-shop-destino"><label for="shopDestino">¿A dónde vas?</label><input type="text" id="shopDestino" placeholder="Tu dirección o destino" autocomplete="off"><div class="err-msg">Escribí a dónde vas.</div></div>
+        <div class="field" id="f-shop-tel"><label for="shopTel">Teléfono (opcional)</label><input type="tel" id="shopTel" placeholder="Ej: 381 555-1234"><div class="err-msg">Ingresá un teléfono válido.</div></div>
+        <div class="field"><label>Personas</label><div class="stepper"><button type="button" onclick="Shop.stepPax(-1)">−</button><span id="shopPax">1</span><button type="button" onclick="Shop.stepPax(1)">+</button></div></div>
+        <button class="btn btn-primary" onclick="Shop.submit()">🚕 PEDIR REMIS</button>
+      </div>
+      <div id="shopLive"></div>
+    </div>
+    <div class="shop-side">
+      <div class="section-title">Pedidos de hoy</div>
+      <div class="screen-pad" id="shopToday" style="padding-top:0;"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-driverLogin">
+    <div class="back-link" onclick="Router.go('home')">← Volver</div>
+    <div class="card-header" style="text-align:center;">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <h2>Panel del conductor</h2>
+      <p class="sub">Ingresá con tus credenciales de conductor.</p>
+    </div>
+    <div class="screen-pad">
+      <div class="field" id="f-drv-email">
+        <label>Email</label>
+        <input type="email" id="drvEmail" placeholder="conductor@ejemplo.com">
+        <div class="err-msg">Ingresá tu email.</div>
+      </div>
+      <div class="field" id="f-drv-pass">
+        <label>Contraseña</label>
+        <input type="password" id="drvPassword" placeholder="Tu contraseña">
+        <div class="err-msg">Email o contraseña incorrectos.</div>
+      </div>
+      <div class="auth-switch" style="text-align:right; margin:-8px 0 14px;"><a onclick="Auth.goForgotPassword('conductor')">¿Olvidaste tu contraseña?</a></div>
+      <button class="btn btn-primary" onclick="Auth.loginDriver()">Ingresar</button>
+      <div class="auth-switch"><a onclick="Router.go('driverRegister')">Registrarme como conductor</a></div>
+      <div class="auth-switch demo-only" style="margin-top:4px;">Demo: <b>carlos@bellavista.com</b> / <b>demo123</b></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DRIVER REGISTER
+       ============================================================ -->
+  <div class="view" id="view-driverRegister">
+    <div class="back-link" onclick="Router.back()">← Volver</div>
+    <div class="brand-header" style="padding-top:4px;">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <div class="brand-title">BellaVista Remis</div>
+      <div class="brand-sub">BELLA VISTA · TUCUMÁN</div>
+    </div>
+    <div class="card-header" style="text-align:center; padding-top:4px;">
+      <h2>Registro de conductor</h2>
+      <p class="sub">Tu cuenta quedará pendiente de aprobación por el administrador.</p>
+    </div>
+    <div class="step-progress" id="drStepProgress"></div>
+    <div class="screen-pad" id="drWizard">
+
+      <div class="step-page active" data-step="1">
+        <div class="card-header"><h3>Paso 1 · Datos personales</h3><p class="sub">Quién sos y cómo contactarte.</p></div>
+        <div class="avatar-upload">
+          <label class="avatar-upload-circle" id="drAvatarWrap" for="drAvatarInput">
+            <span id="drAvatarPlaceholder">📷</span>
+            <span class="avatar-upload-badge">＋</span>
+          </label>
+          <input type="file" id="drAvatarInput" accept="image/*" onchange="UI.previewAvatar(this,'drAvatarWrap')">
+          <div class="avatar-upload-label">Agregá tu foto de perfil</div>
+        </div>
+        <div class="field" id="f-dr-nombre"><label>Nombre</label><input type="text" id="drNombre"><div class="err-msg">Ingresá tu nombre.</div></div>
+        <div class="field" id="f-dr-apellido"><label>Apellido</label><input type="text" id="drApellido"><div class="err-msg">Ingresá tu apellido.</div></div>
+        <div class="field" id="f-dr-dni"><label>DNI</label><input type="text" id="drDni"><div class="err-msg">Ingresá tu DNI.</div></div>
+        <div class="field" id="f-dr-tel"><label>Teléfono</label><input type="tel" id="drTelefono"><div class="err-msg">Ingresá un teléfono.</div></div>
+        <div class="field" id="f-dr-licencia"><label>N° de licencia de conducir</label><input type="text" id="drLicencia"><div class="err-msg">Ingresá tu licencia.</div></div>
+      </div>
+
+      <div class="step-page" data-step="2">
+        <div class="card-header"><h3>Paso 2 · Tu cuenta</h3><p class="sub">Con esto vas a iniciar sesión.</p></div>
+        <div class="field" id="f-dr-email"><label>Email</label><input type="email" id="drEmail"><div class="err-msg">Ingresá un email válido.</div></div>
+        <div class="field" id="f-dr-pass"><label>Contraseña</label><input type="password" id="drPassword"><div class="err-msg">Mínimo 6 caracteres.</div></div>
+      </div>
+
+      <div class="step-page" data-step="3">
+        <div class="card-header"><h3>Paso 3 · Datos del vehículo</h3><p class="sub">El auto con el que vas a trabajar.</p></div>
+        <div class="field" id="f-dr-marca"><label>Marca</label><input type="text" id="drMarca" placeholder="Ej: Fiat"><div class="err-msg">Ingresá la marca.</div></div>
+        <div class="field" id="f-dr-modelo"><label>Modelo</label><input type="text" id="drModelo" placeholder="Ej: Siena"><div class="err-msg">Ingresá el modelo.</div></div>
+        <div class="field" id="f-dr-color"><label>Color</label><input type="text" id="drColor" placeholder="Ej: Blanco"><div class="err-msg">Ingresá el color.</div></div>
+        <div class="field" id="f-dr-anio"><label>Año del vehículo</label><input type="number" id="drAnio" inputmode="numeric" placeholder="Ej: 2019"><div class="err-msg">Ingresá un año válido.</div></div>
+        <div class="field" id="f-dr-tpat"><label>Tipo de patente</label>
+          <select id="drTipoPatente"><option value="1">Mercosur (AB 123 CD)</option><option value="2">Anterior (ABC 123)</option></select></div>
+        <div class="field" id="f-dr-patente"><label>Patente</label><input type="text" id="drPatente" placeholder="Ej: AB123CD" style="text-transform:uppercase"><div class="err-msg">Revisá que la patente coincida con el tipo elegido.</div></div>
+      </div>
+
+      <div class="step-page" data-step="4">
+        <div class="card-header"><h3>Paso 4 · Documentación</h3><p class="sub">Fotos claras y vigentes. El administrador las revisa antes de habilitarte.</p></div>
+        <div id="drDocs"></div>
+        <div class="err" id="drDocsErr" style="color:var(--red);font-size:13px;font-weight:600;margin:6px 0 10px;"></div>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn btn-outline" id="drPrevBtn" onclick="Wizard.prev('driverRegister')">← Atrás</button>
+        <button class="btn btn-primary" id="drNextBtn" onclick="Wizard.next('driverRegister')">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DRIVER PANEL
+       ============================================================ -->
+  <div class="view" id="view-driverPanel">
+    <div class="hero drv-hero">
+      <div class="drv-top">
+        <div><h1>Hola, <span id="driverFirstName">—</span></h1><p class="tagline" id="driverVehicleLine">—</p></div>
+        <button class="btn-ghost" style="color:var(--gray-mid); font-size:13px;" onclick="Auth.logout()">Salir</button>
+      </div>
+      <div id="driverStatusCard"></div>
+    </div>
+    <div class="stat-strip drv-stats" id="driverStats"></div>
+    <div id="driverPoints"></div>
+    <div id="driverDocs"></div>
+    <div class="panel-cols">
+      <div class="panel-col">
+        <div class="section-title">Viaje activo</div>
+        <div class="screen-pad" style="padding-top:0;" id="driverActiveTrip"></div>
+        <div class="section-title">Nuevas solicitudes</div>
+        <div class="screen-pad" style="padding-top:0;" id="driverRequests"></div>
+      </div>
+      <div class="panel-col">
+        <div class="section-title">Viajes de hoy</div>
+        <div class="screen-pad" style="padding-top:0;" id="driverTodayTrips"></div>
+        <div class="section-title">🏆 Ranking de choferes</div>
+        <div class="screen-pad" style="padding-top:0;" id="driverRanking"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ADMIN LOGIN
+       ============================================================ -->
+  <div class="view" id="view-adminLogin">
+    <div class="back-link" onclick="Router.go('home')">← Volver</div>
+    <div class="card-header" style="text-align:center;">
+      <img class="auth-logo-img brand-logo-target" src="logo.png" alt="Logo BellaVista Remis">
+      <h2>Panel administrador</h2>
+      <p class="sub">Acceso restringido.</p>
+    </div>
+    <div class="screen-pad">
+      <div class="field" id="f-adm-user"><label>Usuario</label><input type="text" id="admUser" placeholder="admin"><div class="err-msg">Usuario incorrecto.</div></div>
+      <div class="field" id="f-adm-pass"><label>Contraseña</label><input type="password" id="admPassword" placeholder="••••••"><div class="err-msg">Contraseña incorrecta.</div></div>
+      <button class="btn btn-primary" onclick="Auth.loginAdmin()">Ingresar</button>
+      <div class="auth-switch demo-only" style="margin-top:4px;">Demo: <b>admin</b> / <b>admin123</b></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ADMIN PANEL
+       ============================================================ -->
+  <div class="view" id="view-adminPanel">
+    <div class="admin-header">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2>BELLA VISTA REMIS</h2>
+          <p class="sub">Panel administrador</p>
+        </div>
+        <button class="btn-ghost" style="color:var(--gray-mid); font-size:12px;" onclick="Auth.logout()">Salir</button>
+      </div>
+    </div>
+    <div class="admin-stats">
+      <div class="admin-stat-card"><div class="icon">🚕</div><div class="n" id="admTripsToday">0</div><div class="l">Viajes de hoy</div></div>
+      <div class="admin-stat-card"><div class="icon">🟢</div><div class="n" id="admDriversAvail">0</div><div class="l">Conductores disponibles</div></div>
+      <div class="admin-stat-card"><div class="icon">🚗</div><div class="n" id="admTripsOngoing">0</div><div class="l">Viajes en curso</div></div>
+      <div class="admin-stat-card"><div class="icon">👤</div><div class="n" id="admPassengers">0</div><div class="l">Pasajeros registrados</div></div>
+      <div class="admin-stat-card"><div class="icon">💰</div><div class="n" id="admRevenue">$0</div><div class="l">Recaudación</div></div>
+      <div class="admin-stat-card"><div class="icon">❌</div><div class="n" id="admCancelled">0</div><div class="l">Viajes cancelados</div></div>
+    </div>
+
+    <div class="tab-row" id="adminTabs">
+      <button class="tab-btn active" data-tab="trips" onclick="Admin.setTab('trips')">Viajes</button>
+      <button class="tab-btn" data-tab="drivers" onclick="Admin.setTab('drivers')">Conductores</button>
+      <button class="tab-btn" data-tab="passengers" onclick="Admin.setTab('passengers')">Pasajeros</button>
+      <button class="tab-btn" data-tab="ranking" onclick="Admin.setTab('ranking')">🏆 Ranking</button>
+      <button class="tab-btn" data-tab="vehicles" onclick="Admin.setTab('vehicles')">Vehículos</button>
+      <button class="tab-btn" data-tab="tariffs" onclick="Admin.setTab('tariffs')">Tarifas</button>
+    </div>
+
+    <div class="search-bar" id="adminSearchBar">
+      <input type="text" id="adminSearchInput" placeholder="Buscar..." oninput="Admin.render()">
+    </div>
+
+    <div class="screen-pad" style="padding-top:0;" id="adminTabContent"></div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     BOTTOM NAV (passenger)
+     ============================================================ -->
+<div class="bottom-nav" id="bottomNav" style="display:none;">
+  <button class="nav-item" data-target="passengerHome" onclick="Router.go('passengerHome')">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    Inicio
+  </button>
+  <button class="nav-item" data-target="request" onclick="Router.go('request')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    Pedir
+  </button>
+  <button class="nav-item" data-target="history" onclick="Router.go('history')">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+    Mis viajes
+  </button>
+  <button class="nav-item" data-target="wallet" onclick="Router.go('wallet')">
+    <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14.5" r="1.2"/></svg>
+    Billetera
+  </button>
+</div>
+
+<!-- ============================================================
+     MODALS
+     ============================================================ -->
+<div class="modal-overlay" id="modalTopup">
+  <div class="modal-sheet">
+    <h3>Cargar dinero</h3>
+    <div class="chip-grid" id="topupChips"></div>
+    <div class="field" id="f-topup">
+      <label for="topupCustom">Otro monto</label>
+      <input type="number" id="topupCustom" inputmode="numeric" placeholder="Ej: 3500" oninput="Wallet.custom(this.value)">
+      <div class="err-msg">Ingresá un monto entre $500 y $100.000.</div>
+    </div>
+    <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Medio de pago</label>
+    <div class="chip-grid" id="topupMethods"></div>
+    <p class="topup-sim">Modo demostración: no se mueve dinero real.</p>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="UI.closeModal('modalTopup')">Cancelar</button>
+      <button class="btn btn-primary" onclick="Wallet.confirmTopup()">Cargar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalCancel">
+  <div class="modal-sheet">
+    <h3>Cancelar viaje</h3>
+    <p id="cancelDesc" style="font-size:13.5px; color:#6B7178; margin-bottom:14px;">Contanos el motivo de la cancelación.</p>
+    <div class="field">
+      <select id="cancelMotivo"></select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="UI.closeModal('modalCancel')">Volver</button>
+      <button class="btn btn-danger" onclick="Trips.confirmCancel()">Confirmar cancelación</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalRating">
+  <div class="modal-sheet">
+    <h3>Calificá tu viaje</h3>
+    <p style="font-size:13.5px; color:#6B7178;">¿Cómo te fue con <span id="ratingDriverName">tu conductor</span>?</p>
+    <div class="star-row" id="starRow">
+      <button data-v="1">★</button><button data-v="2">★</button><button data-v="3">★</button><button data-v="4">★</button><button data-v="5">★</button>
+    </div>
+    <div class="field">
+      <textarea id="ratingComment" placeholder="Comentario (opcional)"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="Trips.submitRating()">Enviar calificación</button>
+    <button class="btn btn-ghost" onclick="UI.closeModal('modalRating')">Omitir</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalDriverDetail">
+  <div class="modal-sheet" id="modalDriverDetailContent"></div>
+</div>
+
+<!-- Orden de carga: storage primero (DB en memoria), luego utilidades,
+     luego modulos de negocio que dependen de storage/UI, al final app.js
+     que arma el router y arranca la app. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

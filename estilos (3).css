@@ -1,0 +1,948 @@
+/* ===== style.css ===== */
+/* BellaVista Remis */
+
+/* Estilos base: tokens, layout, componentes, formularios, tickets, tarjetas, nav */
+
+/* ============================================================
+   BELLAVISTA REMIS — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --yellow: #F5B700;
+  --yellow-dark: #C99100;
+  --yellow-soft: #FFF3D6;
+  --charcoal: #22252A;
+  --charcoal-2: #2E323A;
+  --gray-light: #EEF0F2;
+  --gray-mid: #C7CCD1;
+  --white: #FFFFFF;
+  --black: #16171A;
+  --red: #D64545;
+  --green: #2E9E5B;
+  --blue: #2E6BE0;
+
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --shadow-card: 0 2px 10px rgba(22,23,26,0.07), 0 1px 2px rgba(22,23,26,0.06);
+  --shadow-pop: 0 10px 30px rgba(22,23,26,0.16);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font-body);
+  background:var(--gray-light);
+  color:var(--black);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:700;
+  margin:0;
+  letter-spacing:0.2px;
+  color:var(--charcoal);
+}
+p{margin:0;}
+button{font-family:var(--font-body);cursor:pointer;border:none;}
+input,select,textarea{font-family:var(--font-body);}
+a{color:inherit;}
+::selection{background:var(--yellow); color:var(--black);}
+:focus-visible{outline:3px solid var(--blue); outline-offset:2px;}
+
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+#app{
+  max-width:480px;
+  margin:0 auto;
+  min-height:100vh;
+  background:var(--white);
+  position:relative;
+  box-shadow:0 0 60px rgba(0,0,0,0.06);
+  padding-bottom:78px;
+}
+
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 18px;
+  background:var(--charcoal);
+  color:var(--white);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.topbar .brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+.brand-logo-img{width:40px;height:40px;flex:none;border-radius:50%;object-fit:cover;display:block;background:var(--charcoal);border:2px solid var(--yellow);box-shadow:0 0 0 2px var(--charcoal);}
+.hero-logo-img{width:72px;height:72px;border-radius:50%;object-fit:cover;display:block;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.35);border:3px solid var(--yellow);}
+.auth-logo-img{width:64px;height:64px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 12px;border:3px solid var(--yellow);box-shadow:0 4px 14px rgba(0,0,0,0.2);}
+.topbar .brand-text{font-family:var(--font-display); font-weight:700; font-size:22px; line-height:1; color:var(--white);}
+.topbar .brand-text small{display:block; font-family:var(--font-body); font-weight:500; font-size:10px; letter-spacing:0.4px; color:var(--yellow); margin-top:2px;}
+.topbar .role-pill{
+  font-size:11px; font-weight:600; padding:5px 10px; border-radius:20px;
+  background:rgba(245,183,0,0.16); color:var(--yellow); border:1px solid rgba(245,183,0,0.4);
+}
+
+.view{display:none; animation:fadeIn 0.25s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+.screen-pad{padding:18px;}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-weight:700; font-size:15px;
+  padding:15px 18px;
+  border-radius:var(--radius-m);
+  transition:transform 0.08s ease, box-shadow 0.15s ease;
+  width:100%;
+}
+.btn:active{transform:scale(0.98);}
+.btn-primary{
+  background:var(--yellow); color:var(--black);
+  box-shadow:0 4px 0 var(--yellow-dark);
+}
+.btn-primary:active{box-shadow:0 2px 0 var(--yellow-dark); transform:translateY(2px) scale(0.99);}
+.btn-outline{background:var(--white); color:var(--charcoal); border:1.5px solid var(--gray-mid);}
+.btn-ghost{background:transparent; color:var(--charcoal); text-decoration:underline; padding:10px;}
+.btn-sm{padding:10px 14px; font-size:13px; border-radius:var(--radius-s);}
+.btn:disabled{opacity:0.45; pointer-events:none;}
+.btn-row{display:flex; gap:10px;}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+.hero{
+  background:var(--charcoal);
+  color:var(--white);
+  padding:8px 22px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";
+  position:absolute; right:-40px; top:-40px; width:180px; height:180px;
+  background:var(--yellow); opacity:0.08; border-radius:50%;
+}
+.hero h1{color:var(--white); font-size:40px; line-height:0.95; margin-bottom:6px;}
+.hero h1 span{color:var(--yellow);}
+.hero .tagline{font-size:15px; color:var(--gray-mid); font-weight:500; margin-bottom:22px;}
+.hero .cta-main{margin-bottom:12px;}
+.hero .cta-main .btn{font-size:17px; padding:18px;}
+.hero .secondary-actions{display:flex; gap:8px; margin-top:10px;}
+.hero .secondary-actions .btn{font-size:13px; padding:11px; background:rgba(255,255,255,0.08); color:var(--white); font-weight:600;}
+.hero .secondary-actions .btn:active{background:rgba(255,255,255,0.16);}
+
+.zone-note{
+  display:flex; align-items:center; gap:8px;
+  background:var(--charcoal-2); color:var(--gray-mid); font-size:12px;
+  padding:10px 12px; border-radius:var(--radius-s); margin-top:16px;
+}
+
+.how-section{padding:26px 22px 10px;}
+.how-section h2{font-size:24px; margin-bottom:16px;}
+.step{
+  display:flex; gap:14px; align-items:flex-start; padding:12px 0;
+  border-bottom:1px solid var(--gray-light);
+}
+.step:last-child{border-bottom:none;}
+.step-num{
+  font-family:var(--font-mono); font-weight:700; font-size:13px;
+  width:28px; height:28px; flex:none; border-radius:50%;
+  background:var(--yellow-soft); color:var(--yellow-dark);
+  display:flex; align-items:center; justify-content:center;
+}
+.step p{font-size:14px; color:var(--charcoal); line-height:1.4; padding-top:4px;}
+
+.stat-strip{display:flex; gap:10px; padding:0 22px 24px;}
+.stat-chip{
+  flex:1; background:var(--gray-light); border-radius:var(--radius-s);
+  padding:12px 10px; text-align:center;
+}
+.stat-chip .n{font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--charcoal);}
+.stat-chip .l{font-size:10.5px; color:#6B7178; font-weight:600;}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.field{margin-bottom:16px;}
+.field label{
+  display:block; font-size:13px; font-weight:600; color:var(--charcoal);
+  margin-bottom:6px;
+}
+.field input, .field select, .field textarea{
+  width:100%; padding:13px 14px; border-radius:var(--radius-s);
+  border:1.5px solid var(--gray-mid); font-size:15px; background:var(--white);
+  color:var(--black);
+}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--yellow-dark);}
+.field textarea{resize:vertical; min-height:70px;}
+.field.error input, .field.error textarea{border-color:var(--red);}
+.field .err-msg{display:none; color:var(--red); font-size:12.5px; margin-top:6px; font-weight:600;}
+.field.error .err-msg{display:block;}
+.field-loc-btn{
+  display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600;
+  color:var(--blue); margin-top:7px; background:none; padding:0;
+}
+.stepper{display:flex; align-items:center; gap:14px;}
+.stepper button{
+  width:38px; height:38px; border-radius:50%; background:var(--gray-light);
+  font-size:18px; font-weight:700; color:var(--charcoal);
+}
+.stepper span{font-family:var(--font-mono); font-size:18px; font-weight:700; min-width:20px; text-align:center;}
+
+.card-header{padding:18px 18px 4px;}
+.card-header h2{font-size:22px;}
+.card-header .sub{font-size:13px; color:#6B7178; margin-top:4px;}
+
+/* ============================================================
+   TICKET / STATUS CARD (distinctive motif)
+   ============================================================ */
+.ticket{
+  background:var(--charcoal);
+  color:var(--white);
+  border-radius:var(--radius-l);
+  margin:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow-pop);
+}
+.ticket-top{padding:20px 20px 16px; position:relative;}
+.ticket-id{font-family:var(--font-mono); font-size:12px; color:var(--yellow); letter-spacing:1px; font-weight:700;}
+.ticket-status{font-family:var(--font-display); font-size:26px; margin-top:6px; display:flex; align-items:center; gap:8px;}
+.pulse-dot{
+  width:10px; height:10px; border-radius:50%; background:var(--yellow); flex:none;
+  animation:pulse 1.4s infinite;
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,183,0,0.5);} 70%{box-shadow:0 0 0 8px rgba(245,183,0,0);} 100%{box-shadow:0 0 0 0 rgba(245,183,0,0);}}
+.perforation{
+  height:0; border-top:2px dashed rgba(255,255,255,0.18); margin:0 20px;
+  position:relative;
+}
+.perforation::before, .perforation::after{
+  content:""; position:absolute; top:-11px; width:22px; height:22px; background:var(--gray-light); border-radius:50%;
+}
+.perforation::before{left:-31px;}
+.perforation::after{right:-31px;}
+.ticket-body{padding:16px 20px 20px; font-family:var(--font-mono);}
+.ticket-row{display:flex; justify-content:space-between; gap:10px; padding:7px 0; font-size:12.5px; border-bottom:1px solid rgba(255,255,255,0.08);}
+.ticket-row:last-child{border-bottom:none;}
+.ticket-row .k{color:var(--gray-mid);}
+.ticket-row .v{color:var(--white); font-weight:600; text-align:right;}
+
+.status-track{display:flex; padding:16px 18px 4px; gap:4px;}
+.status-track .seg{flex:1; height:4px; border-radius:2px; background:var(--gray-mid);}
+.status-track .seg.done{background:var(--yellow);}
+
+.driver-card{
+  margin:0 18px 18px; background:var(--white); border:1.5px solid var(--gray-light);
+  border-radius:var(--radius-m); padding:16px; display:flex; gap:14px; align-items:center;
+  box-shadow:var(--shadow-card);
+}
+.driver-avatar{
+  width:54px; height:54px; border-radius:50%; background:var(--yellow-soft);
+  display:flex; align-items:center; justify-content:center; font-family:var(--font-display);
+  font-size:22px; font-weight:700; color:var(--yellow-dark); flex:none;
+}
+.driver-info h4{font-size:16px;}
+.driver-info .car{font-size:13px; color:#6B7178; margin-top:2px;}
+.driver-info .plate{
+  font-family:var(--font-mono); font-size:11px; background:var(--charcoal); color:var(--yellow);
+  padding:2px 7px; border-radius:4px; display:inline-block; margin-top:5px; letter-spacing:1px;
+}
+.driver-rating{margin-left:auto; text-align:center; font-family:var(--font-mono); font-weight:700; font-size:14px; color:var(--charcoal);}
+
+/* ============================================================
+   CARDS / LISTS
+   ============================================================ */
+.card{
+  background:var(--white); border:1.5px solid var(--gray-light); border-radius:var(--radius-m);
+  padding:16px; margin-bottom:12px; box-shadow:var(--shadow-card);
+}
+.card-title-row{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;}
+.card-title-row h4{font-size:16px;}
+.badge{
+  font-size:11px; font-weight:700; padding:4px 9px; border-radius:20px; white-space:nowrap;
+}
+.badge-yellow{background:var(--yellow-soft); color:var(--yellow-dark);}
+.badge-green{background:#E4F5EA; color:var(--green);}
+.badge-red{background:#FBE6E6; color:var(--red);}
+.badge-gray{background:var(--gray-light); color:#6B7178;}
+.badge-blue{background:#E7EEFC; color:var(--blue);}
+.mini-row{display:flex; gap:8px; font-size:12.5px; color:#6B7178; margin-top:3px;}
+.mini-row b{color:var(--charcoal);}
+
+.empty-state{
+  text-align:center; padding:50px 24px; color:#8A9099;
+}
+.empty-state .icon{font-size:38px; margin-bottom:10px; display:block;}
+.empty-state h4{color:var(--charcoal); font-size:16px; margin-bottom:6px;}
+.empty-state p{font-size:13px; line-height:1.4;}
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+.bottom-nav{
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:480px;
+  background:var(--white); border-top:1px solid var(--gray-light);
+  display:flex; justify-content:space-around; padding:8px 4px 10px;
+  z-index:50;
+}
+.nav-item{
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:none; color:#9AA0A7; font-size:10.5px; font-weight:600; padding:5px 10px;
+  border-radius:10px;
+}
+.nav-item.active{color:var(--charcoal);}
+.nav-item.active svg{stroke:var(--yellow-dark);}
+.nav-item svg{width:22px; height:22px; stroke:#9AA0A7; fill:none; stroke-width:2;}
+.nav-item.active svg{stroke:var(--charcoal);}
+
+/* ============================================================
+   TOAST / NOTIFICATIONS
+   ============================================================ */
+#toast-wrap{
+  position:fixed; top:14px; left:50%; transform:translateX(-50%);
+  width:calc(100% - 32px); max-width:448px; z-index:200;
+  display:flex; flex-direction:column; gap:8px; pointer-events:none;
+}
+.toast{
+  background:var(--charcoal); color:var(--white); padding:13px 16px; border-radius:var(--radius-s);
+  font-size:13.5px; font-weight:600; box-shadow:var(--shadow-pop);
+  display:flex; align-items:center; gap:10px;
+  animation:toastIn 0.25s ease;
+}
+.toast .dot{width:8px;height:8px;border-radius:50%; background:var(--yellow); flex:none;}
+@keyframes toastIn{from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);}}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(22,23,26,0.55);
+  z-index:150; align-items:flex-end; justify-content:center;
+}
+.modal-overlay.active{display:flex;}
+.modal-sheet{
+  background:var(--white); width:100%; max-width:480px; border-radius:20px 20px 0 0;
+  padding:22px; max-height:85vh; overflow-y:auto;
+  animation:sheetUp 0.25s ease;
+}
+@keyframes sheetUp{from{transform:translateY(30px); opacity:0.6;} to{transform:translateY(0); opacity:1;}}
+.modal-sheet h3{font-size:20px; margin-bottom:14px;}
+
+/* ============================================================
+   SIMULATED MAP
+   ============================================================ */
+.map-box{
+  margin:0 18px 18px; height:150px; border-radius:var(--radius-m); position:relative; overflow:hidden;
+  background:
+    linear-gradient(0deg, transparent 24%, rgba(199,204,209,0.4) 25%, rgba(199,204,209,0.4) 26%, transparent 27%, transparent 74%, rgba(199,204,209,0.4) 75%, rgba(199,204,209,0.4) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(199,204,209,0.4) 25%, rgba(199,204,209,0.4) 26%, transparent 27%, transparent 74%, rgba(199,204,209,0.4) 75%, rgba(199,204,209,0.4) 76%, transparent 77%, transparent),
+    var(--gray-light);
+  background-size:20px 20px;
+  border:1.5px solid var(--gray-light);
+}
+.map-pin{position:absolute; width:26px; height:26px; transform:translate(-50%,-100%);}
+.map-badge{
+  position:absolute; bottom:8px; left:8px; background:rgba(22,23,26,0.85); color:var(--white);
+  font-size:10.5px; font-weight:600; padding:5px 9px; border-radius:20px;
+}
+
+/* ============================================================
+   STARS
+   ============================================================ */
+.star-row{display:flex; gap:8px; justify-content:center; margin:18px 0;}
+.star-row button{background:none; font-size:36px; color:var(--gray-mid); line-height:1;}
+.star-row button.on{color:var(--yellow);}
+
+/* ============================================================
+   AUTH SWITCH
+   ============================================================ */
+.auth-switch{text-align:center; margin-top:16px; font-size:13.5px; color:#6B7178;}
+.auth-switch a{color:var(--blue); font-weight:600; cursor:pointer;}
+
+
+/* ===== responsive.css ===== */
+/* BellaVista Remis */
+
+/* ============================================================
+   RESPONSIVE — mobile (base), tablet, desktop, pantallas grandes/TV
+   El "shell" (#app) crece de ancho fijo de celular a un layout
+   centrado más ancho a medida que crece la pantalla, manteniendo
+   siempre la misma identidad visual y componentes.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+}
+
+/* Fondo detrás del "telefono" en pantallas que no son de celular */
+@media (min-width:481px){
+  body{background:linear-gradient(180deg, var(--charcoal) 0%, var(--charcoal) 220px, var(--gray-light) 220px);}
+}
+
+/* ------------------------------------------------------------
+   TABLET — 600px a 1023px
+   ------------------------------------------------------------ */
+@media (min-width:600px){
+  body{display:flex; justify-content:center; background:var(--charcoal);}
+  #app{
+    max-width:640px;
+    margin:0 auto;
+    box-shadow:var(--shadow-pop);
+    min-height:100vh;
+  }
+  .bottom-nav{max-width:640px;}
+  #toast-wrap{max-width:608px;}
+
+  .hero h1{font-size:46px;}
+  .admin-stats{grid-template-columns:repeat(4,1fr);}
+  .brand-logo-img{width:46px; height:46px;}
+}
+
+/* ------------------------------------------------------------
+   DESKTOP — 1024px a 1439px
+   El shell se convierte en un panel centrado tipo "app de
+   escritorio", con la nav inferior fija dentro del panel y
+   grillas que aprovechan el ancho extra.
+   ------------------------------------------------------------ */
+@media (min-width:1024px){
+  body{padding:32px 0; align-items:flex-start;}
+  #app{
+    max-width:900px;
+    border-radius:var(--radius-l);
+    overflow:hidden;
+    min-height:calc(100vh - 64px);
+    padding-bottom:88px;
+  }
+  .bottom-nav{
+    max-width:900px;
+    border-radius:0 0 var(--radius-l) var(--radius-l);
+    padding-bottom:14px;
+  }
+  #toast-wrap{max-width:520px;}
+
+  .topbar{padding:20px 28px;}
+  .brand-logo-img{width:52px; height:52px;}
+  .topbar .brand-text{font-size:26px;}
+  .topbar .brand-text small{font-size:11px;}
+  .screen-pad{padding:26px 32px;}
+
+  .hero{padding:10px 32px 44px;}
+  .hero h1{font-size:52px;}
+  .hero .tagline{font-size:16px;}
+  .hero .cta-main .btn{max-width:360px;}
+  .hero .secondary-actions{max-width:420px;}
+
+  .how-section{padding:32px 32px 14px;}
+  .stat-strip{padding:0 32px 30px;}
+
+  .card-header{padding:24px 28px 6px;}
+  .ticket{margin:24px 28px;}
+  .driver-card{margin:0 28px 24px;}
+  .map-box{margin:0 28px 24px; height:200px;}
+
+  .admin-header{padding:26px 28px 30px;}
+  .admin-stats{padding:0 28px; grid-template-columns:repeat(4,1fr);}
+  .tab-row{padding:18px 28px 6px;}
+  .search-bar{padding:0 28px;}
+  .section-title{margin:20px 28px 10px;}
+  .tariff-grid{padding:0 28px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .back-link{padding:18px 28px 0;}
+
+  .field{max-width:520px;}
+
+  .btn{cursor:pointer;}
+  .btn:hover{filter:brightness(1.04);}
+  .nav-item:hover{color:var(--charcoal);}
+}
+
+/* ------------------------------------------------------------
+   PANTALLAS GRANDES / TV — 1440px en adelante
+   Mismo panel centrado, algo más ancho y con tipografía y
+   espaciados levemente mayores para verse cómodo a distancia.
+   ------------------------------------------------------------ */
+@media (min-width:1440px){
+  body{padding:48px 0;}
+  #app{max-width:1080px;}
+  .bottom-nav{max-width:1080px;}
+
+  .hero h1{font-size:60px;}
+  .hero .tagline{font-size:17px;}
+  .card-title-row h4{font-size:18px;}
+  .ticket-status{font-size:30px;}
+  .admin-stat-card .n{font-size:30px;}
+  .brand-logo-img{width:58px; height:58px;}
+
+  .tariff-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ------------------------------------------------------------
+   Celulares muy chicos — ajuste fino para que nada se corte
+   ------------------------------------------------------------ */
+@media (max-width:340px){
+  .hero h1{font-size:34px;}
+  .stat-strip{gap:6px;}
+  .stat-chip{padding:10px 6px;}
+}
+
+
+/* ===== dashboard.css ===== */
+/* BellaVista Remis */
+
+/* Estilos especificos del panel administrador */
+
+/* admin table */
+.data-table{width:100%; border-collapse:collapse; font-size:12.5px;}
+.data-table th{
+  text-align:left; padding:9px 8px; background:var(--gray-light); color:#6B7178; font-weight:700;
+  font-size:10.5px; text-transform:none; position:sticky; top:0;
+}
+.data-table td{padding:10px 8px; border-bottom:1px solid var(--gray-light); color:var(--charcoal);}
+.table-wrap{overflow-x:auto; border-radius:var(--radius-s); border:1px solid var(--gray-light); margin-bottom:16px;}
+
+.admin-header{background:var(--charcoal); color:var(--white); padding:20px 18px 26px;}
+.admin-header h2{color:var(--white); font-size:22px;}
+.admin-header .sub{color:var(--gray-mid); font-size:12.5px; margin-top:3px;}
+.admin-stats{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 18px; margin-top:-18px;}
+.admin-stat-card{
+  background:var(--white); border-radius:var(--radius-m); padding:14px; box-shadow:var(--shadow-card);
+}
+.admin-stat-card .icon{font-size:18px;}
+.admin-stat-card .n{font-family:var(--font-display); font-size:26px; font-weight:700; color:var(--charcoal); margin-top:4px;}
+.admin-stat-card .l{font-size:11px; color:#8A9099; font-weight:600;}
+
+.tab-row{display:flex; gap:6px; padding:16px 18px 4px; overflow-x:auto;}
+.tab-btn{
+  flex:none; padding:9px 14px; border-radius:20px; font-size:12.5px; font-weight:700;
+  background:var(--gray-light); color:#6B7178;
+}
+.tab-btn.active{background:var(--charcoal); color:var(--white);}
+
+.search-bar{
+  display:flex; gap:8px; padding:0 18px; margin:14px 0;
+}
+.search-bar input{
+  flex:1; padding:11px 14px; border-radius:var(--radius-s); border:1.5px solid var(--gray-mid); font-size:14px;
+}
+
+.section-title{font-size:13px; font-weight:700; color:#6B7178; margin:18px 18px 8px; text-transform:uppercase; letter-spacing:0.4px;}
+
+.tariff-grid{padding:0 18px;}
+.back-link{
+  display:flex; align-items:center; gap:6px; padding:16px 18px 0; font-size:13.5px; font-weight:600; color:#6B7178;
+  cursor:pointer;
+}
+
+
+/* ===== steps.css ===== */
+/* BellaVista Remis */
+
+/* ============================================================
+   PASO A PASO — barra de progreso para formularios (registro,
+   pedir remis) + línea de tiempo vertical estilo Uber para el
+   estado del viaje (pasajero y conductor).
+   ============================================================ */
+
+/* ---------------- STEP PROGRESS (arriba de un formulario) ---------------- */
+.step-progress{
+  display:flex; align-items:flex-start; padding:16px 18px 6px;
+}
+.step-node{
+  display:flex; flex-direction:column; align-items:center; flex:none; width:auto;
+}
+.step-circle{
+  width:28px; height:28px; border-radius:50%; background:var(--gray-light);
+  border:2px solid var(--gray-mid); color:#8A9099;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-weight:700; font-size:12px;
+  flex:none; transition:background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.step-label{
+  font-size:9.5px; font-weight:700; color:#9AA0A7; text-align:center;
+  margin-top:5px; max-width:64px; line-height:1.2; text-transform:uppercase; letter-spacing:0.2px;
+}
+.step-node.active .step-circle{background:var(--yellow); border-color:var(--yellow); color:var(--black);}
+.step-node.active .step-label{color:var(--charcoal);}
+.step-node.done .step-circle{background:var(--charcoal); border-color:var(--charcoal); color:var(--yellow);}
+.step-node.done .step-label{color:var(--charcoal);}
+.step-line{
+  flex:1; height:2px; background:var(--gray-mid); margin:13px 2px 0; min-width:10px;
+}
+.step-line.done{background:var(--charcoal);}
+
+.step-page{display:none;}
+.step-page.active{display:block; animation:fadeIn 0.2s ease;}
+.step-page .card-header{padding:2px 0 14px;}
+.step-page .card-header h3{font-size:18px;}
+.step-page .card-header .sub{font-size:12.5px; color:#6B7178; margin-top:3px;}
+
+.wizard-nav{display:flex; gap:10px; margin-top:6px;}
+.wizard-nav .btn{flex:1;}
+
+.step-summary{
+  background:var(--gray-light); border-radius:var(--radius-m); padding:14px 16px; margin-bottom:16px;
+}
+.step-summary .row{display:flex; justify-content:space-between; gap:10px; padding:6px 0; font-size:13px; border-bottom:1px solid rgba(0,0,0,0.06);}
+.step-summary .row:last-child{border-bottom:none;}
+.step-summary .row .k{color:#6B7178; font-weight:600;}
+.step-summary .row .v{color:var(--charcoal); font-weight:700; text-align:right;}
+
+/* ---------------- TIMELINE VERTICAL (estado del viaje, estilo Uber) ---------------- */
+.timeline{padding:18px 20px 4px;}
+.tl-item{display:flex; gap:14px; position:relative;}
+.tl-item .tl-rail{display:flex; flex-direction:column; align-items:center; flex:none;}
+.tl-dot{
+  width:22px; height:22px; border-radius:50%; background:var(--gray-light);
+  border:2px solid var(--gray-mid); flex:none; display:flex; align-items:center; justify-content:center;
+  font-size:11px; color:#9AA0A7; transition:all 0.2s ease;
+}
+.tl-connector{width:2px; flex:1; min-height:26px; background:var(--gray-mid);}
+.tl-item:last-child .tl-connector{display:none;}
+.tl-body{padding-bottom:26px; padding-top:1px;}
+.tl-title{font-size:13.5px; font-weight:700; color:#9AA0A7;}
+.tl-desc{font-size:11.5px; color:#B0B5BB; margin-top:2px; line-height:1.35;}
+
+.tl-item.done .tl-dot{background:var(--charcoal); border-color:var(--charcoal); color:var(--yellow);}
+.tl-item.done .tl-connector{background:var(--charcoal);}
+.tl-item.done .tl-title{color:var(--charcoal);}
+.tl-item.done .tl-desc{color:#6B7178;}
+
+.tl-item.active .tl-dot{background:var(--yellow); border-color:var(--yellow); color:var(--black); box-shadow:0 0 0 4px rgba(245,183,0,0.22);}
+.tl-item.active .tl-title{color:var(--charcoal); font-weight:800;}
+.tl-item.active .tl-desc{color:#6B7178;}
+
+.tl-item.cancelled .tl-dot{background:var(--red); border-color:var(--red); color:var(--white);}
+.tl-item.cancelled .tl-title{color:var(--red);}
+
+/* next accion destacada (panel del conductor) */
+.next-step-box{
+  background:var(--yellow-soft); border:1.5px dashed var(--yellow-dark);
+  border-radius:var(--radius-m); padding:12px 14px; margin-top:12px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.next-step-box .txt{font-size:12px; font-weight:700; color:var(--yellow-dark); line-height:1.3;}
+
+/* ---------------- ENCABEZADO DE MARCA + FOTO DE PERFIL (registro) ---------------- */
+.brand-header{text-align:center; padding:20px 18px 6px;}
+.brand-header .auth-logo-img{width:64px; height:64px;}
+.brand-header .brand-title{font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--charcoal); margin-top:8px;}
+.brand-header .brand-sub{font-size:11px; font-weight:600; color:var(--yellow-dark); letter-spacing:0.4px; margin-top:2px;}
+
+.avatar-upload{display:flex; flex-direction:column; align-items:center; margin:6px 0 22px;}
+.avatar-upload input[type="file"]{display:none;}
+.avatar-upload-circle{
+  width:88px; height:88px; border-radius:50%; position:relative; cursor:pointer;
+  background:var(--gray-light); border:2.5px dashed var(--gray-mid);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+  color:#9AA0A7; font-size:26px; transition:border-color 0.15s ease;
+}
+.avatar-upload-circle:hover{border-color:var(--yellow-dark);}
+.avatar-upload-circle img{width:100%; height:100%; object-fit:cover; display:block;}
+.avatar-upload-badge{
+  position:absolute; right:-2px; bottom:-2px; width:28px; height:28px; border-radius:50%;
+  background:var(--yellow); color:var(--black); display:flex; align-items:center; justify-content:center;
+  font-size:13px; border:2px solid var(--white);
+}
+.avatar-upload-label{font-size:11.5px; font-weight:700; color:#6B7178; margin-top:8px;}
+
+
+/* ===== enhance.css ===== */
+/* BellaVista Remis — mejoras: responsive uniforme + paneles de conductor y pasajero */
+a.btn{text-decoration:none;}
+.btn{min-height:46px;}
+.btn-danger{background:var(--red);color:#fff;border:0;}
+.btn-success{background:var(--green);color:#fff;box-shadow:0 3px 0 #237a45;}
+.btn-lg{font-size:17px;padding:17px 18px;}
+#app{min-height:100vh;min-height:100dvh;}
+.topbar{padding-top:max(16px,env(safe-area-inset-top));}
+.bottom-nav{padding-bottom:max(10px,env(safe-area-inset-bottom));}
+.field input,.field select,.field textarea{font-size:16px;}
+.view{overflow-x:hidden;}
+
+/* ---- estado del viaje: color por estado ---- */
+.ticket{border-top:6px solid var(--yellow);}
+.ticket.st-asignado,.ticket.st-curso{border-top-color:var(--green);}
+.ticket.st-camino,.ticket.st-llego{border-top-color:var(--blue);}
+.ticket.st-finalizado{border-top-color:var(--gray-mid);}
+.ticket.st-cancelado{border-top-color:var(--red);}
+.trip-banner{border-left:6px solid var(--yellow);}
+.trip-banner.st-asignado,.trip-banner.st-curso{border-left-color:var(--green);}
+.trip-banner.st-camino,.trip-banner.st-llego{border-left-color:var(--blue);}
+
+/* ---- ruta origen/destino ---- */
+.route{margin:6px 0 10px;}
+.route-row{display:flex;align-items:flex-start;gap:10px;font-size:14px;font-weight:600;color:var(--charcoal);padding:5px 0;position:relative;}
+.route-row+.route-row::before{content:"";position:absolute;left:5px;top:-9px;height:16px;border-left:2px dotted var(--gray-mid);}
+.rd{width:12px;height:12px;flex:none;margin-top:4px;border-radius:50%;background:var(--green);}
+.rd-d{border-radius:2px;background:var(--red);}
+
+/* ---- panel del conductor ---- */
+.drv-hero h1{font-size:28px;}
+.drv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.drv-top .tagline{margin:4px 0 0;}
+.drv-status{border-radius:var(--radius-l);padding:18px;color:#fff;display:flex;flex-direction:column;gap:14px;}
+.drv-status.on{background:var(--green);}
+.drv-status.off{background:var(--charcoal-2);border:1.5px solid rgba(255,255,255,.14);}
+.drv-status.busy{background:#D9820B;}
+.drv-lead{display:flex;align-items:center;gap:12px;}
+.drv-dot{width:16px;height:16px;border-radius:50%;background:#fff;flex:none;}
+.drv-status.on .drv-dot{animation:pulse 1.4s infinite;}
+.drv-status.off .drv-dot{background:var(--gray-mid);}
+.drv-lead h2{color:#fff;font-size:28px;line-height:1;}
+.drv-lead p{font-size:13px;opacity:.92;margin-top:3px;}
+.drv-status .btn-ghost-w{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.7);}
+.drv-stats{margin-top:16px;}
+.trip-card{border-left:6px solid var(--yellow);}
+.trip-card.new{border-left-color:var(--green);}
+.trip-card.active{border-left-color:var(--blue);}
+.fare{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--charcoal);}
+.btn-row.wrap{flex-wrap:wrap;}
+.btn-row.wrap>.btn{flex:1 1 140px;}
+.btn-row.stack-m{margin-top:12px;}
+.panel-cols,.status-cols{display:block;}
+
+/* ---- tablet ---- */
+@media (min-width:600px){
+  .admin-stats{grid-template-columns:repeat(3,1fr);}
+  .modal-overlay{align-items:center;padding:20px;}
+  .modal-sheet{border-radius:var(--radius-l);max-width:460px;}
+}
+/* ---- escritorio: paneles centrados y en columnas ---- */
+@media (min-width:1024px){
+  #view-register,#view-login,#view-forgotPassword,#view-request,#view-scheduled,
+  #view-driverLogin,#view-driverRegister,#view-adminLogin{max-width:620px;margin-inline:auto;}
+  #view-history{max-width:780px;margin-inline:auto;}
+  .field{max-width:none;}
+  .btn-row{max-width:none;}
+  .hero .secondary-actions{max-width:420px;}
+  .panel-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:0 12px;align-items:start;padding:0 16px;}
+  .status-cols{display:grid;grid-template-columns:1.1fr 1fr;gap:0 8px;align-items:start;}
+  .status-cols .ticket{margin-right:12px;}
+  #adminTabContent{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start;}
+  #adminTabContent>.table-wrap,#adminTabContent>.tariff-grid,#adminTabContent>.empty-state{grid-column:1/-1;}
+  .drv-stats{padding:0 32px 10px;}
+}
+@media (min-width:1440px){
+  .panel-cols{padding:0 24px;}
+  .admin-stats{grid-template-columns:repeat(6,1fr);}
+}
+
+
+/* ===== wallet.css ===== */
+/* BellaVista Remis — foto de perfil y billetera */
+.avatar-img,.topbar-avatar,.profile-photo,.driver-avatar{overflow:hidden;}
+.topbar-avatar img,.profile-photo img,.driver-avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-avatar{display:none;width:36px;height:36px;border-radius:50%;background:var(--yellow-soft);color:var(--yellow-dark);
+  border:2px solid var(--yellow);align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:15px;cursor:pointer;flex:none;}
+.profile-head{display:flex;align-items:center;gap:16px;padding:14px 18px 10px;}
+.profile-photo{width:84px;height:84px;border-radius:50%;flex:none;cursor:pointer;background:var(--yellow-soft);color:var(--yellow-dark);
+  border:3px solid var(--yellow);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:30px;font-weight:700;}
+.profile-head input{display:none;}
+.profile-head h2{font-size:24px;}
+.profile-head .sub{font-size:13px;color:#6B7178;margin-top:2px;word-break:break-all;}
+.profile-head .link{font-size:12.5px;font-weight:700;color:var(--blue);cursor:pointer;display:inline-block;margin-top:6px;}
+
+.wallet-card{margin:12px 18px 18px;padding:22px 20px;border-radius:var(--radius-l);background:var(--charcoal);color:var(--white);box-shadow:var(--shadow-pop);border-top:6px solid var(--yellow);}
+.wallet-label{font-size:12.5px;color:var(--gray-mid);font-weight:600;}
+.wallet-balance{font-family:var(--font-display);font-size:48px;font-weight:700;color:var(--yellow);line-height:1.1;margin:4px 0 16px;}
+.wallet-note{font-size:12px;color:var(--gray-mid);margin-top:12px;line-height:1.4;}
+.wallet-chip{margin:0 18px 6px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-radius:var(--radius-m);
+  background:var(--charcoal);color:var(--white);cursor:pointer;}
+.wallet-chip b{font-family:var(--font-display);font-size:26px;color:var(--yellow);}
+.wallet-chip span{font-size:12px;color:var(--gray-mid);font-weight:600;display:block;}
+.wallet-chip em{font-style:normal;font-size:13px;font-weight:700;color:var(--yellow);}
+
+.mov{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:8px;}
+.mov-ico{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;}
+.mov-ico.carga{background:#E4F5EA;color:var(--green);}
+.mov-ico.viaje{background:#FBE6E6;color:var(--red);}
+.mov-info{flex:1;min-width:0;}
+.mov-info h4{font-size:15px;}
+.mov-amt{font-family:var(--font-mono);font-weight:700;font-size:14px;white-space:nowrap;}
+.mov-amt.carga{color:var(--green);}
+.mov-amt.viaje{color:var(--red);}
+
+.chip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.chip-grid button{padding:13px 8px;border-radius:var(--radius-s);border:1.5px solid var(--gray-mid);background:var(--white);font-weight:700;font-size:14px;color:var(--charcoal);}
+.chip-grid button.on{border-color:var(--yellow-dark);background:var(--yellow-soft);color:var(--yellow-dark);}
+.topup-sim{font-size:11.5px;color:#8A9099;margin:4px 0 14px;}
+
+@media (min-width:1024px){
+  #view-wallet{max-width:760px;margin-inline:auto;}
+  .wallet-card{margin-inline:44px;}
+  #view-wallet .stat-strip{padding:0 44px 6px !important;}
+  #view-wallet .screen-pad{padding-inline:44px !important;}
+  .profile-head{padding-inline:44px;}
+  .wallet-chip{margin-inline:32px;}
+}
+
+.more-details{margin:4px 0 8px;border:1.5px solid var(--gray-light);border-radius:var(--radius-m);padding:12px 14px;}
+.more-details summary{font-size:13.5px;font-weight:700;color:var(--charcoal);cursor:pointer;}
+
+/* Puntos */
+.pbar{height:10px;border-radius:6px;background:var(--gray-light);overflow:hidden;margin:8px 0;}
+.pbar i{display:block;height:100%;background:var(--yellow);border-radius:6px;transition:width .4s;}
+.points-card{margin:0 18px 18px;padding:16px 18px;border-radius:var(--radius-m);background:var(--white);border:1.5px solid var(--gray-light);box-shadow:var(--shadow-card);}
+.points-top{display:flex;justify-content:space-between;align-items:center;}
+.points-top h3{font-size:18px;}
+.points-top b{font-family:var(--font-mono);font-size:15px;color:var(--yellow-dark);}
+.points-card p{font-size:12.5px;color:#6B7178;line-height:1.4;}
+.points-free{margin:8px 0;padding:10px 12px;border-radius:var(--radius-s);background:var(--yellow-soft);color:var(--yellow-dark);font-weight:700;font-size:14px;}
+.points-chip{margin:8px 18px 0;padding:12px 16px;border-radius:var(--radius-m);background:var(--white);border:1.5px solid var(--gray-light);cursor:pointer;}
+.points-chip b{font-size:15px;display:block;}
+.points-chip span{font-size:12px;color:#6B7178;}
+.points-chip.has-free{background:var(--yellow-soft);border-color:var(--yellow);}
+@media (min-width:1024px){.points-card{margin-inline:44px;}.points-chip{margin-inline:32px;}}
+
+/* Ranking de choferes */
+.rk-tabs{display:flex;gap:6px;margin-bottom:12px;}
+.rk-tabs button{flex:1;padding:10px 6px;border-radius:var(--radius-s);border:1.5px solid var(--gray-light);background:var(--white);font-weight:700;font-size:13px;color:var(--charcoal);}
+.rk-tabs button.on{background:var(--charcoal);color:var(--yellow);border-color:var(--charcoal);}
+.rk-row{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:8px;}
+.rk-row.me{background:var(--yellow-soft);border-color:var(--yellow);}
+.rk-pos{width:30px;text-align:center;font-family:var(--font-display);font-size:22px;font-weight:700;flex:none;}
+.rk-av{width:42px;height:42px;flex:none;font-size:15px;}
+.rk-info{flex:1;min-width:0;}
+.rk-info h4{font-size:15px;}
+.rk-info em{font-style:normal;font-size:12px;color:var(--yellow-dark);}
+.rk-n{text-align:center;flex:none;}
+.rk-n b{display:block;font-family:var(--font-display);font-size:28px;line-height:1;}
+.rk-n span{font-size:11px;color:#6B7178;font-weight:600;}
+
+/* Mapa y recorrido */
+.dest-row{display:flex;gap:8px;}
+.dest-row input{flex:1;min-width:0;}
+.dest-row .btn{width:auto;flex:none;padding:0 18px;min-height:48px;}
+.quick-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.quick-chips button{padding:9px 13px;border-radius:20px;border:1.5px solid var(--yellow-dark);background:var(--yellow-soft);font-weight:700;font-size:13px;color:var(--yellow-dark);}
+.result-btn{display:block;width:100%;text-align:left;padding:11px 14px;margin-top:8px;border-radius:var(--radius-s);border:1.5px solid var(--gray-light);background:var(--white);}
+.result-btn b{display:block;font-size:14.5px;color:var(--charcoal);}
+.result-btn span{font-size:12px;color:#6B7178;}
+.req-map{height:260px;border-radius:var(--radius-m);overflow:hidden;border:1.5px solid var(--gray-light);margin-top:6px;background:var(--gray-light);}
+.route-box{margin-top:10px;padding:14px 16px;border-radius:var(--radius-m);background:var(--charcoal);color:var(--white);font-size:14px;}
+.route-fare{font-family:var(--font-display);font-size:38px;font-weight:700;color:var(--yellow);line-height:1.1;margin:2px 0;}
+.route-box small{color:var(--gray-mid);font-size:12px;}
+.map-hint{font-size:12.5px;color:#6B7178;background:var(--gray-light);border-radius:var(--radius-s);padding:10px 12px;margin-bottom:10px;}
+
+/* Documentación del chofer */
+.doc-card{border:1.5px solid var(--gray-light);border-radius:var(--radius-m);padding:14px;margin-bottom:12px;background:var(--white);}
+.doc-card h4{font-size:15px;margin-bottom:2px;}
+.doc-card .sub{font-size:12px;color:#6B7178;margin-bottom:8px;}
+.doc-pick{display:flex;align-items:center;justify-content:center;min-height:90px;border:2px dashed var(--yellow-dark);border-radius:var(--radius-s);background:var(--yellow-soft);color:var(--yellow-dark);font-weight:700;font-size:14px;cursor:pointer;overflow:hidden;margin-top:6px;}
+.doc-pick img{width:100%;max-height:180px;object-fit:cover;display:block;}
+.doc-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--gray-light);font-size:13px;}
+.doc-st{font-size:11px;padding:3px 8px;border-radius:12px;white-space:nowrap;}
+.doc-st.ok{background:#E4F5EA;color:var(--green);} .doc-st.wait{background:var(--yellow-soft);color:var(--yellow-dark);} .doc-st.bad{background:#FBE6E6;color:var(--red);}
+
+
+/* ===== shop.css ===== */
+/* BellaVista Remis — selector de tipo de cuenta y pantalla de comercio */
+.type-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.type-select button{padding:14px 10px;border-radius:var(--radius-m);border:1.5px solid var(--gray-mid);background:var(--white);
+  font-weight:700;font-size:14px;color:var(--charcoal);text-align:center;line-height:1.25;}
+.type-select button small{display:block;font-weight:500;font-size:11.5px;color:#6B7178;margin-top:4px;}
+.type-select button.on{border-color:var(--yellow-dark);background:var(--yellow-soft);}
+
+.shop-head{background:var(--charcoal);color:var(--white);padding:26px 22px 28px;}
+.shop-head h1{color:var(--white);font-size:34px;line-height:1;}
+.shop-head h1 span{color:var(--yellow);}
+.shop-head p{color:var(--gray-mid);font-size:15px;margin-top:8px;}
+.shop-tools{display:flex;gap:8px;margin-top:16px;}
+.shop-tools .btn{font-size:13px;padding:10px;background:rgba(255,255,255,.1);color:#fff;min-height:40px;}
+.shop-wait{font-size:14px;color:#6B7178;padding:6px 0 12px;}
+.shop-wrap{padding:22px 22px 10px;}
+.shop-wrap .field input{font-size:18px;padding:16px;}
+.shop-wrap .btn-primary{font-size:19px;padding:20px;}
+@media (min-width:1024px){
+  #view-shop.active{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:auto 1fr;}
+  #view-shop .shop-head{grid-column:1 / -1;padding:34px 44px;}
+  #view-shop .shop-head h1{font-size:48px;}
+  #view-shop .shop-wrap{padding:30px 44px;}
+  #view-shop .shop-side{padding:30px 44px 30px 0;}
+}
+.shop-logo{width:64px;height:64px;border-radius:50%;border:3px solid var(--yellow);margin-bottom:12px;}
+
+
+/* ===== desktop.css ===== */
+@media (min-width:1024px){
+/* BellaVista Remis — diseño exclusivo para PC (>=1024px). El celular no se toca. */
+
+body{
+  background:
+    radial-gradient(1200px 500px at 15% -10%, rgba(245,183,0,.16), transparent 60%),
+    linear-gradient(180deg,#16171A 0,#22252A 420px,#EEF0F2 420px);
+  padding:28px 40px 40px;
+}
+#app{max-width:1240px;width:100%;border-radius:var(--radius-l);box-shadow:0 24px 70px rgba(0,0,0,.35);}
+.bottom-nav{max-width:1240px;}
+#toast-wrap{max-width:460px;}
+
+/* Barra superior más amplia */
+.topbar{padding:18px 44px;}
+.topbar .brand-text{font-size:28px;}
+.topbar .role-pill{font-size:13px;padding:7px 16px;}
+
+/* INICIO: dos columnas — presentación a la izquierda, datos y pasos a la derecha */
+#view-home.active{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  grid-template-rows:auto 1fr;
+  min-height:calc(100vh - 170px);
+}
+#view-home .hero{
+  grid-row:1 / span 2;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:56px 56px 56px 64px;
+}
+#view-home .hero::after{right:-90px;top:auto;bottom:-90px;width:340px;height:340px;}
+#view-home .hero-logo-img{width:108px;height:108px;margin-bottom:26px;}
+#view-home .hero h1{font-size:76px;line-height:.95;margin-bottom:16px;}
+#view-home .hero .tagline{font-size:19px;max-width:480px;margin-bottom:30px;}
+#view-home .hero .cta-main{width:100%;max-width:440px;}
+#view-home .hero .cta-main .btn{max-width:none;font-size:19px;padding:20px;}
+#view-home .hero .secondary-actions{width:100%;max-width:440px;}
+#view-home .hero .secondary-actions .btn{font-size:14px;padding:13px;}
+#view-home .hero .auth-switch{text-align:left;color:var(--gray-mid);}
+#view-home .hero .auth-switch a{color:var(--yellow);}
+#view-home .hero .zone-note{font-size:13.5px;padding:12px 14px;max-width:440px;}
+
+#view-home .stat-strip{padding:40px 48px 8px 40px;gap:14px;}
+#view-home .stat-chip{padding:18px 12px;background:var(--white);border:1.5px solid var(--gray-light);box-shadow:var(--shadow-card);}
+#view-home .stat-chip .n{font-size:38px;}
+#view-home .stat-chip .l{font-size:11px;}
+
+#view-home .how-section{padding:14px 48px 40px 40px;align-self:start;}
+#view-home .how-section h2{font-size:30px;margin-bottom:10px;}
+#view-home .step{padding:14px 0;}
+#view-home .step p{font-size:16px;}
+#view-home .step-num{width:32px;height:32px;font-size:14px;}
+#view-home .how-section > .btn{max-width:none;}
+#view-home > div[style*="height:20px"]{display:none;}
+
+/* Resto de pantallas: más aire y botones que no se estiran de borde a borde */
+.screen-pad{padding:30px 44px;}
+.card-header{padding:28px 44px 6px;}
+.btn:hover{filter:brightness(1.05);transform:translateY(-1px);}
+.btn:active{transform:scale(.99);}
+
+}

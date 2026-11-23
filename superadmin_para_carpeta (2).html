@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#22252A">
+<meta name="robots" content="noindex, nofollow">
+<title>BellaVista Remis — Super Admin</title>
+<link rel="icon" type="image/png" href="../logo.png">
+<link rel="apple-touch-icon" href="../logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22252A;--yellow:#F5B700;--yellow-soft:#FFF4D1;--bg:#EEF0F2;--card:#fff;--line:#DDE1E5;--mute:#6B7178;--red:#D64545;--green:#2E9E5B;--hh:68px;
+  --d:'Barlow Condensed','Arial Narrow',sans-serif;--t:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--t);background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+header{background:var(--ink);color:#fff;height:var(--hh);padding:env(safe-area-inset-top) 18px 0;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:7;border-bottom:3px solid var(--yellow);box-sizing:content-box}
+header img{width:44px;height:44px;border-radius:50%;flex:none}
+header h1{font-family:var(--d);font-size:24px;line-height:1}
+header small{display:block;color:var(--yellow);font-weight:600;font-size:11px;letter-spacing:.08em}
+header .who{margin-left:auto;font-size:12px;color:#B8BDC4;text-align:right;line-height:1.3;min-width:0;overflow:hidden;text-overflow:ellipsis}
+header button{flex:none}
+.shell{flex:1;display:flex;width:100%;max-width:1560px;margin:0 auto}
+main{flex:1;min-width:0;padding:16px 14px calc(88px + env(safe-area-inset-bottom))}
+#vista{display:grid;gap:14px;align-content:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+h2{font-family:var(--d);font-size:26px;margin-bottom:10px}
+h3{font-size:14px;margin-bottom:8px;color:var(--mute);font-weight:600}
+input,select{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;background:#fff;min-width:0}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-weight:700;background:var(--yellow);color:var(--ink)}
+button.ghost{background:transparent;color:#B8BDC4;border:1px solid #555;padding:7px 12px;font-size:12px}
+button.danger{background:#FBE6E6;color:var(--red)}
+button.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+nav{display:none}
+body.in nav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--ink);border-top:3px solid var(--yellow);padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px}
+nav button{flex:1;min-width:0;background:none;color:#B8BDC4;font-size:11px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:10px;font-weight:600}
+nav button i{font-style:normal;font-size:21px;line-height:1.1}
+nav button.on{color:var(--yellow);background:rgba(255,255,255,.1)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.kpi b{display:block;font-family:var(--d);font-size:clamp(22px,6.2vw,30px);line-height:1.1;white-space:nowrap}
+.kpi span{font-size:11.5px;color:var(--mute);font-weight:600;margin-top:2px}
+.kpi.y{background:var(--ink);color:#fff}.kpi.y b{color:var(--yellow)}.kpi.y span{color:#B8BDC4}
+.cols2{display:grid;gap:14px;grid-template-columns:1fr}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;min-width:0}
+.pcard:hover{border-color:var(--yellow)}
+.av{width:46px;height:46px;border-radius:50%;background:var(--yellow-soft);color:#8A6500;display:flex;align-items:center;justify-content:center;font-family:var(--d);font-size:22px;font-weight:700;flex:none;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.pc-body{flex:1;min-width:0}.pc-body b{display:block}.pc-body small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.bar{height:6px;border-radius:4px;background:var(--line);margin:8px 0 4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
+.pc-badges{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex:none}
+.detail{display:grid;gap:14px;grid-template-columns:1fr;align-items:start}
+.detail aside{display:grid;gap:14px}
+.docs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.docimg{width:100%;height:230px;object-fit:contain;background:#111;border-radius:10px;display:block}
+.empty{text-align:center;padding:36px 16px;color:var(--mute)}
+.row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}.row>div{flex:1;min-width:0}.row small{color:var(--mute);display:block;word-break:break-all}
+.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--yellow-soft);color:#8A6500;white-space:nowrap;display:inline-block}
+.pill.s{background:var(--ink);color:var(--yellow)}.pill.ok{background:#E4F5EA;color:var(--green)}.pill.bad{background:#FBE6E6;color:var(--red)}.pill.wait{background:var(--yellow-soft);color:#8A6500}
+.add{display:flex;gap:8px}.add input{flex:1}.add button{flex:none}
+.err{color:var(--red);font-size:13px;margin-top:8px}.okmsg{color:var(--green);font-size:13px;margin-top:8px}
+.login-wrap{min-height:calc(100vh - var(--hh) - 40px);min-height:calc(100dvh - var(--hh) - 40px);display:grid;place-items:center}
+.login{width:100%;max-width:400px;padding:26px 22px}
+.login img{width:96px;height:96px;border-radius:50%;display:block;margin:0 auto 12px;border:3px solid var(--yellow)}
+.login h2{text-align:center}.login label{font-size:13px;font-weight:600;display:block;margin:12px 0 6px}
+.set{display:grid;grid-template-columns:1fr 140px 90px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.set:last-child{border:0}.set small{color:var(--mute);display:block;grid-column:1/-1}
+@media(max-width:699px){.kpi.y{grid-column:1/-1}}
+.bars{display:grid;gap:12px}.brow{display:grid;grid-template-columns:104px 1fr 48px;gap:10px;align-items:center;font-size:13px}
+.brow .bt{height:12px;border-radius:7px;background:var(--line);overflow:hidden}.brow .bt i{display:block;height:100%;background:var(--yellow);border-radius:7px}.brow b{text-align:right}
+header>div:nth-child(2){min-width:0}header h1,header small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:560px){header{gap:10px;padding-left:14px;padding-right:14px}header .who{display:none}header h1{font-size:21px}header small{font-size:9.5px;letter-spacing:.04em}.set{grid-template-columns:1fr 96px 80px}.set button{padding:11px 6px}.set b{font-size:14px}.set input,.set select{padding:10px 6px;font-size:15px}.add{flex-direction:column}.add button{width:100%}}
+@media(min-width:700px){.grid{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:900px){
+  body.in nav{position:sticky;top:calc(var(--hh) + 3px);align-self:flex-start;flex-direction:column;width:232px;flex:none;height:calc(100vh - var(--hh) - 3px);background:transparent;border:0;padding:20px 0 20px 18px;gap:8px}
+  nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;font-size:15px;padding:13px 14px;background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  nav button.on{background:var(--ink);color:var(--yellow);border-color:var(--ink)}
+  main{padding:22px 28px 32px}
+  .cols2{grid-template-columns:1fr 1fr}
+  .detail{grid-template-columns:350px 1fr}.detail aside{position:sticky;top:calc(var(--hh) + 20px)}
+  .kpi b{font-size:34px}
+  #vista.fill{min-height:calc(100vh - var(--hh) - 3px - 56px);grid-template-rows:auto 1fr}
+  .pcard{padding:18px}.pc-body b{font-size:17px}.av{width:52px;height:52px}
+  .fill .cols2 .card{display:flex;flex-direction:column}.fill .bars{flex:1;align-content:space-evenly;gap:0}
+  .fill .brow{font-size:15px;grid-template-columns:130px 1fr 56px}.fill .brow .bt{height:16px}
+}
+@media(min-width:1500px){main{padding:26px 40px 36px}}
+</style>
+</head>
+<body>
+<header>
+  <img src="../logo.png" alt="Logo BellaVista Remis">
+  <div><h1>BellaVista Remis</h1><small>SUPER ADMIN · BELLA VISTA, TUCUMÁN</small></div>
+  <div class="who" id="who" style="display:none"></div>
+  <button class="ghost" id="outBtn" style="display:none" onclick="salir()">Salir</button>
+</header>
+<div class="shell"><nav id="nav"></nav><main id="app"></main></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// Conexión al proyecto de Supabase "bellavista-remis".
+// Es la clave PÚBLICA (anon): está pensada para estar a la vista en la página.
+// La seguridad la dan las reglas de la base de datos. Nunca pongas acá la clave service_role.
+const CFG = {
+  SUPABASE_URL: '',
+  SUPABASE_ANON_KEY: ''
+};
+</script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$' + Math.round(Number(n) || 0).toLocaleString('es-AR');
+const fecha = s => new Date(s).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' });
+let sb, tab = 'resumen';
+
+async function rpc(name, args){
+  const { data, error } = await sb.rpc(name, args);
+  if(error) throw new Error(error.message);
+  return data;
+}
+
+async function iniciar(){
+  if(!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY){
+    $('app').innerHTML = '<div class="card"><h2>Falta configurar</h2><p>Abrí <b>superadmin.html</b>, buscá <b>SUPABASE_URL</b> y pegá la dirección y la clave pública de tu proyecto de Supabase.</p></div>';
+    return;
+  }
+  sb = supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
+  const { data } = await sb.auth.getSession();
+  data.session ? entrar() : loginView();
+}
+
+function loginView(msg){
+  document.body.classList.remove('in');
+  $('who').style.display = $('outBtn').style.display = 'none';
+  $('app').innerHTML = `<div class="login-wrap"><div class="card login">
+    <img src="../logo.png" alt="Logo BellaVista Remis"><h2>Ingreso del dueño</h2>
+    <label for="em">Email</label><input id="em" type="email" autocomplete="username">
+    <label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+    <button style="width:100%;margin-top:16px" onclick="login()">Entrar</button><div class="err" id="lerr">${esc(msg || '')}</div></div></div>`;
+}
+async function login(){
+  $('lerr').textContent = '';
+  const { error } = await sb.auth.signInWithPassword({ email: $('em').value.trim(), password: $('pw').value });
+  if(error){ $('lerr').textContent = 'Email o contraseña incorrectos.'; return; }
+  entrar();
+}
+
+async function entrar(){
+  try{
+    const p = await rpc('mi_perfil');
+    if(!p || p.rol !== 'superadmin'){ await sb.auth.signOut(); loginView('Esta cuenta no tiene acceso de super administrador.'); return; }
+    $('who').innerHTML = esc(p.nombre) + '<br>' + esc(p.email); $('who').style.display = $('outBtn').style.display = '';
+    document.body.classList.add('in');
+    ir(tab);
+  }catch(e){ loginView(e.message); }
+}
+async function salir(){ await sb.auth.signOut(); loginView(); }
+
+function ir(t){
+  tab = t;
+  const tabs = [['resumen','📊','Resumen'],['choferes','🚕','Choferes'],['admins','👥','Equipo'],['ajustes','⚙️','Ajustes'],['auditoria','🧾','Auditoría']];
+  $('nav').innerHTML = tabs.map(([k, i, n]) => `<button class="${k === t ? 'on' : ''}" onclick="ir('${k}')"><i>${i}</i>${n}</button>`).join('');
+  $('app').innerHTML = '<div id="vista"><div class="empty">Cargando…</div></div>';
+  window.scrollTo(0, 0);
+  ({ resumen: vResumen, choferes: vChoferes, admins: vAdmins, ajustes: vAjustes, auditoria: vAuditoria })[t]().catch(e => $('vista').innerHTML = `<div class="card err">${esc(e.message)}</div>`);
+}
+async function vResumen(){
+  const r = await rpc('superadmin_resumen'), e = r.viajes_por_estado || {}, u = r.usuarios_por_rol || {};
+  const bars = (o, vacio) => !Object.keys(o).length ? vacio : `<div class="bars">${(m => Object.entries(o).sort((a, b) => b[1] - a[1]).map(([a, b]) => `<div class="brow"><span>${esc(a)}</span><div class="bt"><i style="width:${b / m * 100}%"></i></div><b>${b}</b></div>`).join(''))(Math.max(1, ...Object.values(o)))}</div>`;
+  $('vista').classList.add('fill');
+  const k = (n, l, y) => `<div class="kpi ${y ? 'y' : ''}"><b>${n}</b><span>${l}</span></div>`;
+  $('vista').innerHTML = `
+    <div class="grid">${k(money(r.recaudacion_total), 'RECAUDACIÓN TOTAL', 1)}${k(money(r.recaudacion_mes), 'RECAUDACIÓN DEL MES', 1)}
+      ${k(r.viajes_hoy, 'VIAJES HOY')}${k(r.viajes_total, 'VIAJES TOTALES')}${k(money(r.saldo_en_billeteras), 'SALDO EN BILLETERAS')}
+      ${k(r.conductores_pendientes, 'CHOFERES POR APROBAR')}${k(r.documentos_por_revisar, 'DOCUMENTOS POR REVISAR')}
+      ${k(r.documentos_por_vencer, 'VENCEN EN 30 DÍAS')}${k(r.documentos_vencidos, 'DOCUMENTOS VENCIDOS')}${k(r.viajes_gratis_pendientes, 'VIAJES GRATIS SIN USAR')}</div>
+    <div class="cols2">
+      <div class="card"><h2 style="font-size:22px">Viajes por estado</h2>${bars(e, 'Sin viajes todavía.')}</div>
+      <div class="card"><h2 style="font-size:22px">Usuarios por tipo</h2>${bars(u, 'Sin usuarios.')}</div>
+    </div>`;
+}
+/* ---------- Choferes: revisar documentación y aprobar ---------- */
+const safeImg = a => /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(a || '') ? a : '';
+const veh = v => v ? `${v.marca} ${v.modelo} · ${v.color} · ${v.patente}` : 'Sin vehículo';
+const ESTADO = { pendiente: ['POR APROBAR', 'wait'], aprobado: ['APROBADO', 'ok'], rechazado: ['RECHAZADO', 'bad'] };
+const badge = (txt, cls) => `<span class="pill ${cls}">${esc(txt)}</span>`;
+
+async function vChoferes(){
+  const l = await rpc('superadmin_conductores');
+  if(!l.length){ $('vista').innerHTML = '<div class="card empty">Todavía no hay choferes registrados.<br>Cuando alguien se registre en la app, va a aparecer acá para que revises su documentación.</div>'; return; }
+  const pend = l.filter(c => c.estado === 'pendiente').length;
+  $('vista').innerHTML = `<div class="card" style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><h2 style="margin:0">Choferes (${l.length})</h2>
+    <span class="pill ${pend ? 'wait' : 'ok'}">${pend ? pend + ' por aprobar' : 'Todo al día'}</span></div>
+    <div class="cards">${l.map(c => { const pct = c.docs_obligatorios ? Math.min(100, Math.round(c.docs_aprobados / c.docs_obligatorios * 100)) : 0;
+      return `<div class="pcard" onclick="verChofer(${+c.id})"><div class="av">${esc((c.nombre || '?')[0])}</div>
+      <div class="pc-body"><b>${esc(c.nombre)} ${esc(c.apellido)}</b><small>${esc(veh(c.vehiculo))}</small><div class="bar"><i style="width:${pct}%"></i></div>
+        <small>${c.docs_aprobados}/${c.docs_obligatorios} docs aprobados${c.docs_pendientes ? ' · ' + c.docs_pendientes + ' por revisar' : ''}${c.docs_vencidos ? ' · ' + c.docs_vencidos + ' vencidos' : ''}</small></div>
+      <div class="pc-badges">${badge(ESTADO[c.estado][0], ESTADO[c.estado][1])}${c.estado === 'aprobado' && !c.habilitado ? badge('INHABILITADO', 'bad') : ''}</div></div>`; }).join('')}</div>`;
+}
+async function verChofer(id, msg){
+  document.querySelectorAll('#nav button').forEach((b, i) => b.classList.toggle('on', i === 1));
+  const c = await rpc('superadmin_conductor', { cid: id }), v = c.vehiculo;
+  const doc = d => { const ven = d.vencido ? ['VENCIDO', 'bad'] : ESTADO[d.estado];
+    return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><b>${esc(d.nombre)}${d.obligatorio ? '' : ' (opcional)'}</b>${badge(ven[0], ven[1])}</div>
+      <p style="font-size:13px;color:var(--mute);margin:4px 0 8px">${d.numero ? 'N° ' + esc(d.numero) + ' · ' : ''}${d.entidad ? esc(d.entidad) + ' · ' : ''}${d.vence_el ? 'Vence el ' + esc(d.vence_el) : 'Sin vencimiento'}</p>
+      ${safeImg(d.archivo) ? `<a href="${safeImg(d.archivo)}" target="_blank" rel="noopener"><img class="docimg" src="${safeImg(d.archivo)}" alt="${esc(d.nombre)}"></a>` : '<div class="err">Archivo inválido</div>'}
+      ${d.observacion ? `<div class="err">Motivo del rechazo: ${esc(d.observacion)}</div>` : ''}
+      <div class="add" style="margin-top:10px"><button style="flex:1" onclick="revDoc(${+d.id}, true, ${+c.id})">Aprobar</button><button class="danger" style="flex:1" onclick="revDoc(${+d.id}, false, ${+c.id})">Rechazar</button></div></div>`; };
+  $('vista').innerHTML = `<div><button class="line" onclick="ir('choferes')">← Volver a choferes</button></div>
+    <div class="detail"><aside>
+      <div class="card"><div style="display:flex;gap:12px;align-items:center"><div class="av" style="width:60px;height:60px">${safeImg(c.foto) ? `<img src="${safeImg(c.foto)}" alt="">` : esc((c.nombre || '?')[0])}</div>
+        <div style="min-width:0"><h2 style="margin:0">${esc(c.nombre)} ${esc(c.apellido)}</h2>${badge(ESTADO[c.estado][0], ESTADO[c.estado][1])}</div></div>
+        <p style="margin-top:12px;font-size:14px;line-height:1.6">DNI ${esc(c.dni)}<br>Tel. ${esc(c.telefono)}<br>${esc(c.email)}<br>Licencia N° ${esc(c.licencia)}</p>
+        ${v ? `<p style="margin-top:10px;font-size:14px;line-height:1.6"><b>Vehículo:</b> ${esc(v.marca)} ${esc(v.modelo)} ${esc(v.anio)}<br>${esc(v.color)} · ${esc(v.asientos)} asientos<br><b>Patente:</b> ${esc(v.patente)} (${esc(v.tipo_patente)})</p>` : ''}
+        ${c.faltan.length ? `<div class="err">Falta cargar: ${c.faltan.map(esc).join(', ')}</div>` : ''}</div>
+      <div class="card"><h2>Decisión final</h2><p style="font-size:13px;color:var(--mute);margin-bottom:10px">Para aprobar, todos los documentos obligatorios tienen que estar aprobados y vigentes. Si un documento vence, el chofer queda inhabilitado solo.</p>
+        <div class="add"><button style="flex:1" onclick="decidir(${+c.id}, true)">Aprobar chofer</button><button class="danger" style="flex:1" onclick="decidir(${+c.id}, false)">Rechazar chofer</button></div>
+        <div id="msg">${msg ? `<div class="err">${esc(msg)}</div>` : ''}</div></div>
+    </aside><section class="docs">${c.documentos.length ? c.documentos.map(doc).join('') : '<div class="card empty">Todavía no subió documentos.</div>'}</section></div>`;
+  window.scrollTo(0, 0);
+}
+async function revDoc(did, ok, cid){
+  let obs = null;
+  if(!ok){ obs = prompt('¿Por qué se rechaza? (el chofer lo va a ver)'); if(obs === null) return; }
+  try{ await rpc('revisar_documento', { did, aprobar: ok, obs }); verChofer(cid); } catch(e){ alert(e.message); }
+}
+async function decidir(cid, ok){
+  if(!confirm(ok ? '¿Aprobar a este chofer?' : '¿Rechazar a este chofer?')) return;
+  try{ await rpc('aprobar_conductor', { cid, aprobar: ok }); verChofer(cid); } catch(e){ verChofer(cid, e.message); }
+}
+
+async function vAdmins(){
+  const l = await rpc('superadmin_admins');
+  $('vista').innerHTML = `<div class="cols2">
+    <div class="card"><h2>Equipo</h2>${l.map(a => `<div class="row"><div><b>${esc(a.nombre)} ${esc(a.apellido)}</b><small>${esc(a.email)}</small></div>
+      <span class="pill ${a.rol === 'superadmin' ? 's' : ''}">${esc(a.rol)}</span>
+      ${a.rol === 'admin' ? `<button class="danger" onclick="quitar('${esc(a.id)}')">Quitar</button>` : ''}</div>`).join('')}</div>
+    <div class="card" style="align-self:start"><h2>Agregar administrador</h2>
+      <p style="font-size:13px;color:var(--mute);margin-bottom:10px">La persona primero crea su cuenta como pasajero en la app. Después escribí su mail acá.</p>
+      <div class="add"><input id="nm" type="email" placeholder="mail@ejemplo.com"><button onclick="ascender()">Ascender</button></div><div id="msg"></div></div></div>`;
+}
+async function ascender(){
+  try{ await rpc('ascender_admin', { p_email: $('nm').value }); vAdmins(); }
+  catch(e){ $('msg').innerHTML = `<div class="err">${esc(e.message)}</div>`; }
+}
+async function quitar(id){
+  if(!confirm('¿Quitar el acceso de administrador a esta persona?')) return;
+  try{ await rpc('quitar_admin', { uid_: id }); vAdmins(); } catch(e){ alert(e.message); }
+}
+
+const AJUSTES = {
+  puntos_pasajero_por_viaje: ['Puntos del pasajero por viaje', 'num'], meta_puntos_pasajero: ['Puntos para un viaje gratis', 'num'],
+  puntos_conductor_por_viaje: ['Puntos del chofer por viaje', 'num'], bonus_5_estrellas: ['Puntos extra por 5 estrellas', 'num'],
+  meta_puntos_conductor: ['Puntos del chofer para un bono', 'num'], carga_simulada: ['Cargas de saldo de prueba', 'bool']
+};
+async function vAjustes(){
+  const a = await rpc('ver_ajustes'), tipos = await rpc('tipos_documento');
+  $('vista').innerHTML = `<div class="cols2"><div class="card"><h2>Ajustes</h2>${Object.entries(AJUSTES).map(([k, [n, t]]) => `<div class="set"><div><b>${n}</b></div>
+    ${t === 'bool' ? `<select id="aj_${k}"><option value="true" ${a[k] === 'true' ? 'selected' : ''}>Prueba</option><option value="false" ${a[k] === 'false' ? 'selected' : ''}>Reales</option></select>`
+                   : `<input id="aj_${k}" type="number" min="1" value="${esc(a[k])}">`}
+    <button onclick="guardar('${k}')">Guardar</button>
+    ${k === 'carga_simulada' ? '<small>Poné "Reales" solo cuando el pago con Mercado Pago o Ualá esté conectado: con "Reales" nadie puede cargar saldo de prueba.</small>' : ''}</div>`).join('')}
+    <div id="msg"></div></div>
+    <div class="card" style="align-self:start"><h2>Documentación que se exige</h2><p style="font-size:13px;color:var(--mute);margin-bottom:8px">Tildá lo que es obligatorio para que un chofer pueda trabajar.</p>
+    ${tipos.map(t => `<label class="row" style="cursor:pointer"><input type="checkbox" style="width:auto" ${t.obligatorio ? 'checked' : ''} onchange="guardarTipo(${+t.id}, this.checked)"><div>${esc(t.nombre)}</div></label>`).join('')}</div></div>`;
+}
+async function guardarTipo(id, v){ try{ await rpc('guardar_tipo_documento', { tid: id, obligatorio_: v }); } catch(e){ alert(e.message); ir('ajustes'); } }
+async function guardar(k){
+  try{ await rpc('guardar_ajuste', { k, v: $('aj_' + k).value }); $('msg').innerHTML = '<div class="okmsg">Guardado.</div>'; }
+  catch(e){ $('msg').innerHTML = `<div class="err">${esc(e.message)}</div>`; }
+}
+
+async function vAuditoria(){
+  const l = await rpc('ver_auditoria', { lim: 200 });
+  $('vista').innerHTML = `<div class="card"><h2>Quién hizo qué</h2>${l.length ? l.map(a => `<div class="row"><div><b>${esc(a.accion)}</b><small>${esc(a.detalle)}</small></div>
+    <div style="text-align:right;font-size:12px;color:var(--mute)">${esc(a.quien || '—')}<br>${fecha(a.creado_en)}</div></div>`).join('') : 'Todavía no hay movimientos.'}</div>`;
+}
+iniciar();
+</script>
+</body>
+</html>

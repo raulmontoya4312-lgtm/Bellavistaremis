@@ -2,8 +2,8 @@
 
 Aplicación web para pedir **remises en Bella Vista, Tucumán**: el pasajero pide un viaje y el precio se calcula por distancia, el chofer lo acepta desde su celular, y el dueño controla todo desde un panel aparte.
 
-> **Integrantes del grupo:** _(completar con los nombres)_
-> **Materia / Profesor:** _(completar)_
+> **Integrantes del grupo:** _(Raul Eduardo Montoya Zamorano)_
+> **Materia / Profesor:** _(Facundo Argañaraz)_
 
 ## ¿Qué hace?
 
